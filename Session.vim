@@ -13,14 +13,15 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +23 js-scripts/submit.js
-badd +69 js-scripts/form.js
-badd +254 style.css
-badd +60 ~/code/design-project/js-scripts/showRecs.js
+badd +39 js-scripts/submit.js
+badd +19 js-scripts/form.js
+badd +84 style.css
+badd +45 index.html
+badd +1 ~/code/design-project/js-scripts/showRecs.js
 badd +15 ~/code/design-project/main.py
 argglobal
 %argdel
-edit js-scripts/submit.js
+edit index.html
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -40,13 +41,13 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt js-scripts/form.js
-let s:l = 16 - ((15 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/showRecs.js
+let s:l = 45 - ((34 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 16
-normal! 01|
+keepjumps 45
+normal! 049|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/code/design-project/js-scripts/showRecs.js", ":p")) | buffer ~/code/design-project/js-scripts/showRecs.js | else | edit ~/code/design-project/js-scripts/showRecs.js | endif
@@ -54,12 +55,12 @@ if &buftype ==# 'terminal'
   silent file ~/code/design-project/js-scripts/showRecs.js
 endif
 balt style.css
-let s:l = 55 - ((21 * winheight(0) + 20) / 40)
+let s:l = 46 - ((27 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 55
-normal! 026|
+keepjumps 46
+normal! 021|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)

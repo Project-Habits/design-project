@@ -1,5 +1,6 @@
 const submitBut = document.querySelector("button[class='submitBut']");
 const formEle = document.querySelector("div[val]");
+const displayBut = document.getElementById('showRecs');
 let userData = {
   table: []
 }
@@ -23,6 +24,7 @@ async function sendData(name, workout, meal) {
     })
 }
 submitBut.onclick = (event) => {
+  let mealEle = document.getElementById('mealCard');
   // Blur background behind the form
   event.preventDefault;
   formEle.classList.toggle('hidden');
@@ -34,6 +36,21 @@ submitBut.onclick = (event) => {
 
   // Send data & fetch response to store in localStorage
   sendData(nameEntry, workoutEntry, mealEntry);
+  displayBut.click();
+
+  // Update recommendations if form is resubmitted
+  if (mealEle != null) {
+    console.log('here');
+    let workoutEle = document.getElementById('workoutCard');
+    workoutEle.classList.add('deleting');
+    mealEle = document.getElementById('mealCard');
+    mealEle.classList.add('deleting');
+    setTimeout(() => {
+      mealEle.remove();
+      workoutEle.remove();
+      displayBut.click();
+    }, 150)
+  }
 
   // Mocking return json response:
   // let mockResponse = {

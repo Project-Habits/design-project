@@ -33,9 +33,7 @@ function workoutCard(obj) {
   cardEle.append(headerEle);
 
   const keys = Object.keys(obj);
-  console.log(keys);
   keys.forEach((key) => {
-    console.log(obj[key] + ' ' + key);
     const noSpaceKey = key.replace(/\s/g, "");
     const newEle = createPart('p', 'workout' + noSpaceKey)
     newEle.textContent = obj[key] + ' ' + key;
@@ -45,17 +43,14 @@ function workoutCard(obj) {
   return cardEle;
 }
 displayBut.onclick = (event) => {
-  console.log(mealEle == null);
   event.preventDefault;
+  mealEle = document.getElementById('mealCard');
   if (localStorage.getItem('name') != null) {
     if (mealEle == null) {
       let workoutObj = JSON.parse(localStorage.getItem('workout'));
       cont.append(workoutCard(workoutObj));
       let mealObj = JSON.parse(localStorage.getItem('meal'));
       cont.append(mealCard(mealObj));
-
-      // mealEle now exists, don't make anymore elements
-      mealEle = document.getElementById('mealCard');
     }
   } else {
     alert("Please use the form to enter your data (+ button)!")
