@@ -33,11 +33,15 @@ function createForm() {
 
   const form = document.createElement('form');
   form.classList.add('cardForm');
-  const taskRow = formHelper('Workout Type?');
-  form.appendChild(taskRow);
 
-  const projectRow = formHelper('Meal Goal?');
-  form.appendChild(projectRow);
+  const nameRow = formHelper('Username');
+  form.appendChild(nameRow);
+
+  const workoutRow = formHelper('Workout Type');
+  form.appendChild(workoutRow);
+
+  const mealRow = formHelper('Meal Goal');
+  form.appendChild(mealRow);
 
   const submitBut = document.createElement('button');
   submitBut.classList.add('submitBut');
@@ -51,7 +55,6 @@ function createForm() {
 
 const attachForm = createForm();
 document.body.appendChild(attachForm);
-console.log('form created');
 
 const formEle = document.querySelector("div[val]");
 const mainEle = document.querySelector(".main");

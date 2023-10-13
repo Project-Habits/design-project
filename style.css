@@ -87,10 +87,6 @@ a {
   padding: 0rem 1vw;
   border-radius: clamp(0.4rem, 0.75vw, 1rem);
 }
-.headerText:hover {
-  color: #C8D5BB;
-  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
-}
 
 .createTask {
   display: flex;

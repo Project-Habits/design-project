@@ -1,5 +1,3 @@
-console.log("here")
-
 const openbtn = document.querySelector(".openbtn");
 const sidebarBtn = document.getElementById("sidebarBtn");
 

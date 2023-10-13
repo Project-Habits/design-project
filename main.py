@@ -14,6 +14,7 @@ app.add_middleware(
 
 
 class Recs(BaseModel):
+    username: str
     workout: str
     meal: str
 
