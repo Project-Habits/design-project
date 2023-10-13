@@ -231,11 +231,17 @@ a {
 }
 
 /* Cards */
+.cardProject {
+  margin: 15px;
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+}
 .cardCont {
   background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
   display: flex;
   height: 250px;
-  width: 200px;
+  width: 400px;
   color: #C8D5BB;
   border: 2px solid #47585C;
   border-radius: 10px;
@@ -251,8 +257,7 @@ a {
 }
 .cardCont > * {
   display: block;
-  width: 180px;
-  white-space: nowrap;
+  width: 350px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;

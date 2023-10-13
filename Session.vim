@@ -13,10 +13,10 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +38 js-scripts/submit.js
+badd +23 js-scripts/submit.js
 badd +69 js-scripts/form.js
-badd +13 style.css
-badd +15 ~/code/design-project/js-scripts/showRecs.js
+badd +254 style.css
+badd +60 ~/code/design-project/js-scripts/showRecs.js
 badd +15 ~/code/design-project/main.py
 argglobal
 %argdel
@@ -37,14 +37,15 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
 balt js-scripts/form.js
-let s:l = 38 - ((25 * winheight(0) + 20) / 40)
+let s:l = 16 - ((15 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 38
+keepjumps 16
 normal! 01|
 wincmd w
 argglobal
@@ -53,15 +54,16 @@ if &buftype ==# 'terminal'
   silent file ~/code/design-project/js-scripts/showRecs.js
 endif
 balt style.css
-let s:l = 18 - ((17 * winheight(0) + 20) / 40)
+let s:l = 55 - ((21 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 18
-normal! 012|
+keepjumps 55
+normal! 026|
 wincmd w
 2wincmd w
-wincmd =
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

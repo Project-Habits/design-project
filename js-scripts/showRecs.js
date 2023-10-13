@@ -1,37 +1,62 @@
 const displayBut = document.getElementById('showRecs');
+const cont = document.getElementById('p7None');
+let mealEle = document.getElementById('mealCard');
 function createPart(ele, myClass) {
   const myEle = document.createElement(ele);
   myEle.classList.add(myClass);
   return myEle
 }
 
+function mealCard(obj) {
+  const cardEle = createPart('div', 'cardCont');
+  const headerEle = createPart('h1', 'cardEle');
+  headerEle.textContent = 'Meal';
+  cardEle.append(headerEle);
+
+  const keys = Object.keys(obj);
+  console.log(keys);
+
+  const nameEle = createPart('p', 'mealName')
+  nameEle.textContent = obj.Name
+  const linkEle = createPart('p', 'mealLink')
+  linkEle.textContent = obj.Link
+
+  cardEle.append(nameEle, linkEle);
+
+  cardEle.id = 'mealCard';
+  return cardEle;
+}
 function workoutCard(obj) {
   const cardEle = createPart('div', 'cardCont');
-  const taskEle = createPart('h1', 'cardWorkout');
+  const headerEle = createPart('h1', 'cardWorkout');
+  headerEle.textContent = 'Workout';
+  cardEle.append(headerEle);
 
   const keys = Object.keys(obj);
   console.log(keys);
   keys.forEach((key) => {
     console.log(obj[key] + ' ' + key);
+    const noSpaceKey = key.replace(/\s/g, "");
+    const newEle = createPart('p', 'workout' + noSpaceKey)
+    newEle.textContent = obj[key] + ' ' + key;
+    cardEle.append(newEle);
   })
-
-  // const detailEle = createPart('p', 'cardDetail');
-  // detailEle.textContent = detail;
-  // cardEle.append(taskEle, detailEle);
-  // const cardID = task.replace(/\s/g, "");
-  // cardEle.id = cardID;
-  // return cardEle;
+  cardEle.id = 'workoutCard';
+  return cardEle;
 }
 displayBut.onclick = (event) => {
+  console.log(mealEle == null);
   event.preventDefault;
   if (localStorage.getItem('name') != null) {
-    let workoutObj = JSON.parse(localStorage.getItem('workout'));
-    console.log(workoutObj);
-    workoutCard(workoutObj);
+    if (mealEle == null) {
+      let workoutObj = JSON.parse(localStorage.getItem('workout'));
+      cont.append(workoutCard(workoutObj));
+      let mealObj = JSON.parse(localStorage.getItem('meal'));
+      cont.append(mealCard(mealObj));
 
-    let mealObj = JSON.parse(localStorage.getItem('meal'));
-    console.log(mealObj);
-    // card(mealObj);
+      // mealEle now exists, don't make anymore elements
+      mealEle = document.getElementById('mealCard');
+    }
   } else {
     alert("Please use the form to enter your data (+ button)!")
   }

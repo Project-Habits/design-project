@@ -32,6 +32,7 @@ submitBut.onclick = (event) => {
   const workoutEntry = formEle.querySelector("input[id='Workout Type']").value;
   const mealEntry = formEle.querySelector("input[id='Meal Goal']").value;
 
+  // Send data & fetch response to store in localStorage
   sendData(nameEntry, workoutEntry, mealEntry);
 
   // Mocking return json response:
@@ -43,7 +44,5 @@ submitBut.onclick = (event) => {
   // localStorage.setItem('meal', JSON.stringify(mockResponse.meal))
   // console.log(JSON.parse(localStorage.getItem('workout')))
   // console.log(JSON.parse(localStorage.getItem('meal')))
-
-  // Send data, fetch response
 
 }
