@@ -15,9 +15,11 @@ async function sendData(name, workout, meal) {
   })
     .then(response => response.json())
     .then(data => {
-      localStorage.setItem("name", data.username);
-      localStorage.setItem("workout", data.workout);
-      localStorage.setItem("meal", data.meal);
+      // localStorage.setItem("workout", data.workout);
+      // localStorage.setItem("meal", data.meal);
+      localStorage.setItem('workout', JSON.stringify(data.workout))
+      localStorage.setItem('meal', JSON.stringify(data.meal))
+      console.log(data);
     })
 }
 submitBut.onclick = (event) => {
@@ -30,15 +32,17 @@ submitBut.onclick = (event) => {
   const workoutEntry = formEle.querySelector("input[id='Workout Type']").value;
   const mealEntry = formEle.querySelector("input[id='Meal Goal']").value;
 
-  console.log(nameEntry);
-  console.log(workoutEntry);
-  console.log(mealEntry);
-  // sendData(nameEntry, workoutEntry, mealEntry);
+  sendData(nameEntry, workoutEntry, mealEntry);
+
   // Mocking return json response:
-  let mockResponse = {
-    workout: { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, meal: { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
-  }
-  console.log(mockResponse);
+  // let mockResponse = {
+  //   workout: { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, meal: { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
+  // }
+  // console.log(mockResponse);
+  // localStorage.setItem('workout', JSON.stringify(mockResponse.workout))
+  // localStorage.setItem('meal', JSON.stringify(mockResponse.meal))
+  // console.log(JSON.parse(localStorage.getItem('workout')))
+  // console.log(JSON.parse(localStorage.getItem('meal')))
 
   // Send data, fetch response
 

@@ -13,25 +13,20 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +20 js-scripts/index.js
-badd +41 js-scripts/submit.js
-badd +65 js-scripts/form.js
-badd +84 style.css
-badd +15 index.html
-badd +7 ~/code/design-project/js-scripts/showRecs.js
+badd +38 js-scripts/submit.js
+badd +69 js-scripts/form.js
+badd +13 style.css
+badd +15 ~/code/design-project/js-scripts/showRecs.js
+badd +15 ~/code/design-project/main.py
 argglobal
 %argdel
-edit js-scripts/form.js
+edit js-scripts/submit.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
-wincmd _ | wincmd |
-split
-1wincmd k
-wincmd w
 wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
@@ -44,41 +39,28 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt style.css
-let s:l = 65 - ((14 * winheight(0) + 9) / 19)
+balt js-scripts/form.js
+let s:l = 38 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 65
-normal! 026|
-wincmd w
-argglobal
-if bufexists(fnamemodify("index.html", ":p")) | buffer index.html | else | edit index.html | endif
-if &buftype ==# 'terminal'
-  silent file index.html
-endif
-balt style.css
-let s:l = 15 - ((8 * winheight(0) + 10) / 20)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 15
-normal! 028|
+keepjumps 38
+normal! 01|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/code/design-project/js-scripts/showRecs.js", ":p")) | buffer ~/code/design-project/js-scripts/showRecs.js | else | edit ~/code/design-project/js-scripts/showRecs.js | endif
 if &buftype ==# 'terminal'
   silent file ~/code/design-project/js-scripts/showRecs.js
 endif
-balt index.html
-let s:l = 7 - ((6 * winheight(0) + 20) / 40)
+balt style.css
+let s:l = 18 - ((17 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 7
-normal! 021|
+keepjumps 18
+normal! 012|
 wincmd w
-3wincmd w
+2wincmd w
 wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -95,6 +77,7 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

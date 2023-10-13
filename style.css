@@ -9,7 +9,7 @@
 a {
   text-decoration: none;
 }
-/* Animation from Silo Creativo */
+
 @-webkit-keyframes silo-fade {
     0% {
         opacity: 0;
@@ -257,20 +257,6 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.cardCont > .cardDue {
-  overflow: visible;
-  white-space: pre-wrap;
-}
-/* Projects */
-.cardProject {
-  margin: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
 /* Hidden at the bottom for display priority */
 .hidden {
   animation: silo-fade-away 0.2s;
