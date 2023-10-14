@@ -45,7 +45,7 @@ function workoutCard(obj) {
 displayBut.onclick = (event) => {
   event.preventDefault;
   mealEle = document.getElementById('mealCard');
-  if (localStorage.getItem('name') != null) {
+  if (localStorage.getItem('username') != null) {
     if (mealEle == null) {
       let workoutObj = JSON.parse(localStorage.getItem('workout'));
       cont.append(workoutCard(workoutObj));
@@ -53,6 +53,8 @@ displayBut.onclick = (event) => {
       cont.append(mealCard(mealObj));
     }
   } else {
-    alert("Please use the form to enter your data (+ button)!")
   }
+}
+if (localStorage.getItem('workout') != null) {
+  displayBut.click();
 }

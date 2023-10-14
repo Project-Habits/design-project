@@ -13,15 +13,16 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +39 js-scripts/submit.js
-badd +19 js-scripts/form.js
-badd +84 style.css
-badd +45 index.html
-badd +1 ~/code/design-project/js-scripts/showRecs.js
-badd +15 ~/code/design-project/main.py
+badd +43 js-scripts/submit.js
+badd +36 js-scripts/form.js
+badd +94 style.css
+badd +5 index.html
+badd +48 ~/code/design-project/js-scripts/showRecs.js
+badd +22 ~/code/design-project/main.py
+badd +1 ~/code/design-project/js-scripts/index.js
 argglobal
 %argdel
-edit index.html
+edit js-scripts/submit.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -41,28 +42,27 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt ~/code/design-project/js-scripts/showRecs.js
-let s:l = 45 - ((34 * winheight(0) + 20) / 40)
+balt js-scripts/form.js
+let s:l = 41 - ((22 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 45
-normal! 049|
+keepjumps 41
+normal! 09|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/code/design-project/js-scripts/showRecs.js", ":p")) | buffer ~/code/design-project/js-scripts/showRecs.js | else | edit ~/code/design-project/js-scripts/showRecs.js | endif
 if &buftype ==# 'terminal'
   silent file ~/code/design-project/js-scripts/showRecs.js
 endif
-balt style.css
-let s:l = 46 - ((27 * winheight(0) + 20) / 40)
+balt index.html
+let s:l = 40 - ((18 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 46
-normal! 021|
+keepjumps 40
+normal! 027|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
@@ -80,7 +80,6 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :
