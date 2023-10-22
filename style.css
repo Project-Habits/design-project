@@ -141,14 +141,24 @@ a {
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
   width: auto;
 }
+.gridRow select {
+  padding: 10px;
+  border: 2px solid #C8D5BB;
+  border-radius: 10px;
+  height: 65px;
+  background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
+  width: 286.683px;
+}
 .gridRow input:focus {
+  outline: 1px solid #C8D5BB;
+}
+.gridRow select:focus {
   outline: 1px solid #C8D5BB;
 }
 .gridRow label {
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
   padding: 5px 0;
   font-size: 10px;
-  display: none;
   position: absolute;
   top: 3px;
   left: 11px;
@@ -157,6 +167,9 @@ a {
   animation: silo-fade 0.2s;
 }
 .gridRow input:focus + label {
+  display: block;
+}
+.gridRow select:focus + label {
   display: block;
 }
 .gridRow input:focus::placeholder{
