@@ -13,19 +13,20 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +33 ~/code/design-project/js-scripts/form.js
+badd +25 ~/code/design-project/js-scripts/form.js
 badd +1 ~/code/design-project/index.html
 badd +174 ~/code/design-project/style.css
+badd +36 ~/code/design-project/js-scripts/submit.js
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/form.js
+edit ~/code/design-project/js-scripts/submit.js
 argglobal
-balt ~/code/design-project/index.html
-let s:l = 21 - ((14 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/form.js
+let s:l = 38 - ((21 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
+keepjumps 38
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

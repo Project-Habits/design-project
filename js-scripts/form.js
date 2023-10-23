@@ -22,7 +22,7 @@ function formHelper(name, type = 'text') {
   else if (name == 'Meal Type') {
     let arr = ["<1500", "1500-2000", "2000+"];
     let selectChoice = document.createElement('select');
-    selectChoice.id = 'workoutChoice';
+    selectChoice.id = 'mealChoice';
     gridRow.appendChild(selectChoice);
 
     for (let i = 0; i < arr.length; i++) {
@@ -100,7 +100,3 @@ document.querySelector(".main").onclick = () => {
     // pass
   }
 };
-document.querySelector(".gridRow").onclick = () => {
-
-}
-

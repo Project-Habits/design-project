@@ -32,8 +32,8 @@ submitBut.onclick = (event) => {
   // Read the form values into variables
   const nameEntry = formEle.querySelector("input[id='Username']").value;
   localStorage.setItem('username', nameEntry)
-  const workoutEntry = formEle.querySelector("input[id='Workout Type']").value;
-  const mealEntry = formEle.querySelector("input[id='Meal Goal']").value;
+  const workoutEntry = document.getElementById("workoutChoice").value;
+  const mealEntry = document.getElementById("mealChoice").value;
 
   // Send data & fetch response to store in localStorage
   sendData(nameEntry, workoutEntry, mealEntry);
