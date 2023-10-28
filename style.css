@@ -260,7 +260,11 @@ a {
   border-radius: 10px;
   align-items: center;
   flex-direction: column;
-  animation: silo-fade 0.2s;
+  animation: silo-fade 0.5s;
+  -webkit-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -moz-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
 }
 .deleting {
   animation: silo-fade-away 0.3s;
@@ -282,4 +286,11 @@ a {
 }
 
 /*Expand cards*/
-
+.transforming {
+  width: 50vw;
+  height: 70vh;    
+  -webkit-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  -moz-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  -o-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+}
