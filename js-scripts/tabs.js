@@ -3,8 +3,19 @@ let workoutTab = document.getElementById('workoutTab');
 let workoutCard = document.getElementById('workoutCard');
 let mealCard = document.getElementById('mealCard');
 let mealTab = document.getElementById('mealTab');
-let cardProj = document.getElementById('p7None');
+let faqBtn = document.getElementById('faqTab')
+let faq = document.getElementById('faqPage')
+let formBtn = document.getElementById('submitCont')
 overviewTab.addEventListener('click', () => {
+  setTimeout(() => {
+    faqPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    submitCont.classList.remove('deleting');
+  }, 350)
+  setTimeout(() => {
+    submitCont.classList.remove('hidden');
+  }, 350)
   setTimeout(() => {
     workoutCard.classList.remove('deleting');
     mealCard.classList.remove('deleting');
@@ -19,6 +30,15 @@ overviewTab.addEventListener('click', () => {
   }, 600)
 })
 workoutTab.addEventListener('click', () => {
+  setTimeout(() => {
+    faqPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    submitCont.classList.remove('deleting');
+  }, 350)
+  setTimeout(() => {
+    submitCont.classList.remove('hidden');
+  }, 350)
   setTimeout(() => {
     mealCard.classList.add('deleting');
   }, 150)
@@ -40,6 +60,15 @@ workoutTab.addEventListener('click', () => {
 })
 mealTab.addEventListener('click', () => {
   setTimeout(() => {
+    faqPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    submitCont.classList.remove('deleting');
+  }, 350)
+  setTimeout(() => {
+    submitCont.classList.remove('hidden');
+  }, 350)
+  setTimeout(() => {
     workoutCard.classList.add('deleting');
   }, 150)
   setTimeout(() => {
@@ -57,4 +86,27 @@ mealTab.addEventListener('click', () => {
   setTimeout(() => {
     mealCard.classList.add('transforming');
   }, 400)
+})
+faqBtn.addEventListener('click', () => {
+  setTimeout(() => {
+    submitCont.classList.add('deleting');
+  }, 150)
+  setTimeout(() => {
+    submitCont.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    mealCard.classList.add('deleting');
+  }, 150)
+  setTimeout(() => {
+    mealCard.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    workoutCard.classList.add('deleting');
+  }, 150)
+  setTimeout(() => {
+    workoutCard.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    faqPage.classList.remove('hidden');
+  }, 350)
 })

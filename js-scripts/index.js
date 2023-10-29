@@ -18,3 +18,4 @@ sidebarBtn.addEventListener("click", () => {
   }
   sidebarBtn.classList.toggle('closebtn');
 });
+

@@ -15,14 +15,14 @@ else
 endif
 badd +8 ~/code/design-project/js-scripts/submit.js
 badd +91 ~/code/design-project/js-scripts/form.js
-badd +1 ~/code/design-project/js-scripts/index.js
+badd +4 ~/code/design-project/js-scripts/index.js
 badd +27 ~/code/design-project/js-scripts/showRecs.js
-badd +26 ~/code/design-project/index.html
-badd +19 ~/code/design-project/js-scripts/tabs.js
-badd +251 ~/code/design-project/style.css
+badd +50 ~/code/design-project/index.html
+badd +94 ~/code/design-project/js-scripts/tabs.js
+badd +81 ~/code/design-project/style.css
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/tabs.js
+edit ~/code/design-project/index.html
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -39,15 +39,16 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt ~/code/design-project/index.html
-let s:l = 19 - ((18 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/tabs.js
+let s:l = 50 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 07|
+keepjumps 50
+normal! 021|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/code/design-project/style.css", ":p")) | buffer ~/code/design-project/style.css | else | edit ~/code/design-project/style.css | endif
@@ -55,15 +56,15 @@ if &buftype ==# 'terminal'
   silent file ~/code/design-project/style.css
 endif
 balt ~/code/design-project/js-scripts/tabs.js
-let s:l = 251 - ((12 * winheight(0) + 20) / 40)
+let s:l = 81 - ((22 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 251
-normal! 019|
+keepjumps 81
+normal! 0
 wincmd w
-2wincmd w
-wincmd =
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -79,6 +80,7 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :
