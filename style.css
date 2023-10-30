@@ -75,6 +75,16 @@ a {
   align-items: center;
   transition: 0.5s;
 }
+.faq {
+  position: relative;
+  margin-top: 10px;
+  height: 90vh;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.5s;
+}
 
 .header {
   color: #47585C;
@@ -184,6 +194,12 @@ a {
 .submitBut:focus{
   outline: 2px solid #C8D5BB;
 }
+.submitCont {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: auto;
+}
 /* Sidebar */
 .openCont {
   position: absolute;
@@ -222,6 +238,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: center;
 }
 .sidebar > *{
   margin: auto;
@@ -260,7 +277,11 @@ a {
   border-radius: 10px;
   align-items: center;
   flex-direction: column;
-  animation: silo-fade 0.2s;
+  animation: silo-fade 0.5s;
+  -webkit-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -moz-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
 }
 .deleting {
   animation: silo-fade-away 0.3s;
@@ -279,4 +300,14 @@ a {
 .hidden {
   animation: silo-fade-away 0.2s;
   display: none;
+}
+
+/*Expand cards*/
+.transforming {
+  width: 50vw;
+  height: 70vh;    
+  -webkit-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  -moz-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  -o-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
