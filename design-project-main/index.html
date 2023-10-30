@@ -12,9 +12,14 @@
 <body>
   <div class="sidebar" id="mySidebar">
     <div class="projects">
-      <a class="sideLink">Tabs [to be implemented]</a>
+      <a class="sideLink" id='overviewTab'>Overview</a>
+      <a class="sideLink" id='workoutTab'>Workout</a>
+      <a class="sideLink" id='mealTab'>Meal</a>
     </div>
     <div class="contact">
+      <a class='sideLink' id='faqTab'>
+        <i class="fa-solid fa-question"></i> FAQ
+      </a>
       <a href=''>
         <i class="fa-regular fa-envelope"></i> Contact us!
       </a>
@@ -31,10 +36,18 @@
     </div>
     <div class="header">
       <h1 class="headerText" data-value="TO-DO LIST" id='showRecs'>Project Habits</h1>
-      <div style="display: flex; flex-direction: row; gap: 15px; width: auto">
-        <button type="button" class="createTask">
-          <h2>+</h2>
-        </button>
+    </div>
+    <div class='submitCont' id='submitCont'>
+      <button type="button" class="createTask">
+        <h2>+</h2>
+      </button>
+    </div>
+    <div class="faq hidden" id='faqPage'>
+      <div class="header">
+        <h1 class="headerText">FAQ</h1>
+        <p>Question 1</p>
+        <p>Question 2</p>
+        <p>Question 3</p>
       </div>
     </div>
     <div class="cardProject" id="p7None">
@@ -45,6 +58,7 @@
   <script type="module" src="js-scripts/form.js"></script>
   <script type="module" src="js-scripts/submit.js"></script>
   <script type="module" src="js-scripts/showRecs.js"></script>
+  <script type="module" src="js-scripts/tabs.js"></script>
 </body>
 
 </html>
