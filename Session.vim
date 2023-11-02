@@ -13,18 +13,14 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +8 ~/code/design-project/js-scripts/submit.js
-badd +91 ~/code/design-project/js-scripts/form.js
-badd +1 ~/code/design-project/js-scripts/index.js
-badd +27 ~/code/design-project/js-scripts/showRecs.js
-badd +55 ~/code/design-project/index.html
-badd +11 ~/code/design-project/js-scripts/tabs.js
-badd +81 ~/code/design-project/style.css
-badd +12 ~/code/design-project/chart.html
-badd +1 ~/code/design-project/js-scripts/chart.js
+badd +7 ~/code/design-project/js-scripts/submit.js
+badd +102 ~/code/design-project/js-scripts/form.js
+badd +37 ~/code/design-project/index.html
+badd +328 ~/code/design-project/style.css
+badd +69 ~/code/design-project/js-scripts/login.js
 argglobal
 %argdel
-edit ~/code/design-project/index.html
+edit ~/code/design-project/js-scripts/submit.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -41,30 +37,33 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt ~/code/design-project/js-scripts/index.js
-let s:l = 55 - ((29 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/form.js
+let s:l = 56 - ((32 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 55
-normal! 08|
-wincmd w
-argglobal
-if bufexists(fnamemodify("~/code/design-project/js-scripts/chart.js", ":p")) | buffer ~/code/design-project/js-scripts/chart.js | else | edit ~/code/design-project/js-scripts/chart.js | endif
-if &buftype ==# 'terminal'
-  silent file ~/code/design-project/js-scripts/chart.js
-endif
-balt ~/code/design-project/chart.html
-let s:l = 11 - ((10 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 11
+keepjumps 56
 normal! 03|
 wincmd w
-wincmd =
+argglobal
+if bufexists(fnamemodify("~/code/design-project/js-scripts/login.js", ":p")) | buffer ~/code/design-project/js-scripts/login.js | else | edit ~/code/design-project/js-scripts/login.js | endif
+if &buftype ==# 'terminal'
+  silent file ~/code/design-project/js-scripts/login.js
+endif
+balt ~/code/design-project/style.css
+let s:l = 69 - ((26 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 69
+normal! 012|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
