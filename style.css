@@ -122,20 +122,6 @@ a {
 }
 
 /* Form Styling */
-.loginCont {
-  position: absolute;
-  z-index: 200;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 10px;
-  background-image: linear-gradient(rgba(71, 88, 92), rgba(71, 88, 92));
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .formCont { /*Form container*/
   position: absolute;
   z-index: 200;
