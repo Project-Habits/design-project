@@ -17,9 +17,12 @@ function mealCard(obj) {
   console.log(keys);
 
   const nameEle = createPart('p', 'mealName')
+  nameEle.classList.add('meal');
   nameEle.textContent = obj.Name
-  const linkEle = createPart('p', 'mealLink')
-  linkEle.textContent = obj.Link
+  const linkEle = createPart('a', 'mealLink')
+  linkEle.classList.add('meal');
+  linkEle.textContent = obj.Link;
+  linkEle.href = obj.Link;
 
   cardEle.append(nameEle, linkEle);
 
@@ -35,7 +38,8 @@ function workoutCard(obj) {
   const keys = Object.keys(obj);
   keys.forEach((key) => {
     const noSpaceKey = key.replace(/\s/g, "");
-    const newEle = createPart('p', 'workout' + noSpaceKey)
+    const newEle = createPart('p', noSpaceKey)
+    newEle.classList.add('exercise');
     newEle.textContent = obj[key] + ' ' + key;
     cardEle.append(newEle);
   })

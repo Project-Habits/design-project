@@ -312,3 +312,13 @@ a {
   -o-transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
   transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
+
+.strike {
+  text-decoration: line-through;
+}
+.mealLink {
+  color: #C8D5BB;
+}
+.mealLink:hover{
+  text-decoration: underline;
+}

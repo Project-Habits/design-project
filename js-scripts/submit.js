@@ -4,20 +4,18 @@ const displayBut = document.getElementById('showRecs');
 let userData = {
   table: []
 }
-async function sendData(name, workout, meal) {
+async function sendData(workout, workGoal, meal, mealGoal) {
   fetch('http://127.0.0.1:8000', {
     method: "POST",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ "username": name, "workout": workout, "meal": meal }),
+    body: JSON.stringify({ "workout": workout, "workoutGoal": workGoal, "meal": meal, "mealGoal": mealGoal }),
   })
     .then(response => response.json())
     .then(data => {
-      // localStorage.setItem("workout", data.workout);
-      // localStorage.setItem("meal", data.meal);
-      console.log('Input: ' + JSON.stringify({ "username": name, "workout": workout, "meal": meal }))
+      console.log('Input: ' + JSON.stringify({ "workout": workout, "workoutGoal": workGoal, "meal": meal, "mealGoal": mealGoal }));
       localStorage.setItem('workout', JSON.stringify(data.workout))
       localStorage.setItem('meal', JSON.stringify(data.meal))
       console.log('Output (from Python server): ' + JSON.stringify(data));
@@ -30,16 +28,18 @@ submitBut.onclick = (event) => {
   formEle.classList.toggle('hidden');
   document.querySelector(".main").classList.toggle('blur');
   // Read the form values into variables
-  const nameEntry = formEle.querySelector("input[id='Username']").value;
-  localStorage.setItem('username', nameEntry)
   const workoutEntry = document.getElementById("workoutChoice").value;
   const mealEntry = document.getElementById("mealChoice").value;
+  const workoutGoal = document.getElementById("workoutGoal").value;
+  const mealGoal = document.getElementById("mealGoal").value;
 
   // Send data & fetch response to store in localStorage
-  sendData(nameEntry, workoutEntry, mealEntry);
+  sendData(workoutEntry, workoutGoal, mealEntry, mealGoal);
   setTimeout(() => {
     displayBut.click();
   }, 250)
+  localStorage.setItem('workoutGoal', workoutGoal);
+  localStorage.setItem('mealGoal', mealGoal);
 
   // Update recommendations if form is resubmitted
   if (mealEle != null) {
@@ -54,15 +54,4 @@ submitBut.onclick = (event) => {
       displayBut.click();
     }, 150)
   }
-
-  // Mocking return json response:
-  // let mockResponse = {
-  //   workout: { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, meal: { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
-  // }
-  // console.log(mockResponse);
-  // localStorage.setItem('workout', JSON.stringify(mockResponse.workout))
-  // localStorage.setItem('meal', JSON.stringify(mockResponse.meal))
-  // console.log(JSON.parse(localStorage.getItem('workout')))
-  // console.log(JSON.parse(localStorage.getItem('meal')))
-
 }

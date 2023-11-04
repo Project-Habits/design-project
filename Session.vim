@@ -13,15 +13,16 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +39 ~/code/design-project/js-scripts/login.js
-badd +61 ~/code/design-project/index.html
-badd +16 ~/code/design-project/chart.html
-badd +1 ~/code/design-project/js-scripts/chart.js
-badd +13 ~/code/design-project/js-scripts/tabs.js
-badd +25 ~/code/design-project/js-scripts/form.js
+badd +59 ~/code/design-project/js-scripts/login.js
+badd +68 ~/code/design-project/index.html
+badd +111 ~/code/design-project/js-scripts/form.js
+badd +42 ~/code/design-project/js-scripts/submit.js
+badd +26 ~/code/design-project/js-scripts/showRecs.js
+badd +11 ~/code/design-project/js-scripts/checklist.js
+badd +307 ~/code/design-project/style.css
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/chart.js
+edit ~/code/design-project/js-scripts/submit.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -38,33 +39,30 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
-exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
+wincmd =
 argglobal
-balt ~/code/design-project/chart.html
-let s:l = 19 - ((18 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 19
-normal! 024|
-wincmd w
-argglobal
-if bufexists(fnamemodify("~/code/design-project/js-scripts/tabs.js", ":p")) | buffer ~/code/design-project/js-scripts/tabs.js | else | edit ~/code/design-project/js-scripts/tabs.js | endif
-if &buftype ==# 'terminal'
-  silent file ~/code/design-project/js-scripts/tabs.js
-endif
 balt ~/code/design-project/js-scripts/form.js
-let s:l = 72 - ((29 * winheight(0) + 20) / 40)
+let s:l = 42 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 72
-normal! 04|
+keepjumps 42
+normal! 0
 wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
-exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
+argglobal
+if bufexists(fnamemodify("~/code/design-project/js-scripts/form.js", ":p")) | buffer ~/code/design-project/js-scripts/form.js | else | edit ~/code/design-project/js-scripts/form.js | endif
+if &buftype ==# 'terminal'
+  silent file ~/code/design-project/js-scripts/form.js
+endif
+balt ~/code/design-project/js-scripts/submit.js
+let s:l = 112 - ((26 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 112
+normal! 01|
+wincmd w
+wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
