@@ -6,7 +6,16 @@ let mealTab = document.getElementById('mealTab');
 let faqBtn = document.getElementById('faqTab')
 let faq = document.getElementById('faqPage')
 let formBtn = document.getElementById('submitCont')
+// try making a function that reassigns these new variables when we click on something 
+function reassign() {
+  workoutCard = document.getElementById('workoutCard');
+  mealCard = document.getElementById('mealCard');
+  faqBtn = document.getElementById('faqTab')
+  faq = document.getElementById('faqPage')
+  formBtn = document.getElementById('submitCont')
+}
 overviewTab.addEventListener('click', () => {
+  reassign();
   setTimeout(() => {
     faqPage.classList.add('hidden');
   }, 350)
@@ -30,6 +39,7 @@ overviewTab.addEventListener('click', () => {
   }, 600)
 })
 workoutTab.addEventListener('click', () => {
+  reassign();
   setTimeout(() => {
     faqPage.classList.add('hidden');
   }, 350)
@@ -59,6 +69,7 @@ workoutTab.addEventListener('click', () => {
   }, 400)
 })
 mealTab.addEventListener('click', () => {
+  reassign();
   setTimeout(() => {
     faqPage.classList.add('hidden');
   }, 350)

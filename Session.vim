@@ -13,17 +13,15 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +8 ~/code/design-project/js-scripts/submit.js
-badd +91 ~/code/design-project/js-scripts/form.js
-badd +1 ~/code/design-project/js-scripts/index.js
-badd +27 ~/code/design-project/js-scripts/showRecs.js
-badd +14 ~/code/design-project/index.html
-badd +38 ~/code/design-project/js-scripts/tabs.js
-badd +126 ~/code/design-project/style.css
-badd +70 ~/code/design-project/js-scripts/login.js
+badd +39 ~/code/design-project/js-scripts/login.js
+badd +61 ~/code/design-project/index.html
+badd +16 ~/code/design-project/chart.html
+badd +1 ~/code/design-project/js-scripts/chart.js
+badd +13 ~/code/design-project/js-scripts/tabs.js
+badd +25 ~/code/design-project/js-scripts/form.js
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/login.js
+edit ~/code/design-project/js-scripts/chart.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -43,27 +41,28 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt ~/code/design-project/js-scripts/submit.js
-let s:l = 70 - ((34 * winheight(0) + 20) / 40)
+balt ~/code/design-project/chart.html
+let s:l = 19 - ((18 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 70
-normal! 07|
+keepjumps 19
+normal! 024|
 wincmd w
 argglobal
-if bufexists(fnamemodify("~/code/design-project/index.html", ":p")) | buffer ~/code/design-project/index.html | else | edit ~/code/design-project/index.html | endif
+if bufexists(fnamemodify("~/code/design-project/js-scripts/tabs.js", ":p")) | buffer ~/code/design-project/js-scripts/tabs.js | else | edit ~/code/design-project/js-scripts/tabs.js | endif
 if &buftype ==# 'terminal'
-  silent file ~/code/design-project/index.html
+  silent file ~/code/design-project/js-scripts/tabs.js
 endif
-balt ~/code/design-project/js-scripts/showRecs.js
-let s:l = 14 - ((13 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/form.js
+let s:l = 72 - ((29 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 14
-normal! 027|
+keepjumps 72
+normal! 04|
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
