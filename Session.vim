@@ -13,15 +13,17 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +18 ~/code/design-project/index.html
-badd +90 ~/code/design-project/js-scripts/form.js
-badd +25 ~/code/design-project/js-scripts/submit.js
-badd +19 ~/code/design-project/js-scripts/showRecs.js
-badd +12 ~/code/design-project/js-scripts/checklist.js
-badd +4 ~/code/design-project/js-scripts/chart.js
+badd +35 ~/code/design-project/index.html
+badd +75 ~/code/design-project/js-scripts/form.js
+badd +36 ~/code/design-project/js-scripts/submit.js
+badd +45 ~/code/design-project/js-scripts/showRecs.js
+badd +43 ~/code/design-project/js-scripts/checklist.js
+badd +343 ~/code/design-project/style.css
+badd +2 ~/code/design-project/js-scripts/chart.js
+badd +11 ~/code/design-project/js-scripts/tabs.js
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/chart.js
+edit ~/code/design-project/index.html
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -41,27 +43,27 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt ~/code/design-project/js-scripts/checklist.js
-let s:l = 21 - ((20 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/form.js
+let s:l = 14 - ((10 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
-normal! 01|
+keepjumps 14
+normal! 027|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/code/design-project/js-scripts/checklist.js", ":p")) | buffer ~/code/design-project/js-scripts/checklist.js | else | edit ~/code/design-project/js-scripts/checklist.js | endif
 if &buftype ==# 'terminal'
   silent file ~/code/design-project/js-scripts/checklist.js
 endif
-let s:l = 12 - ((10 * winheight(0) + 20) / 40)
+balt ~/code/design-project/style.css
+let s:l = 39 - ((22 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 12
-normal! 036|
+keepjumps 39
+normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
 exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
