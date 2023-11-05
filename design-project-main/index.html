@@ -10,11 +10,15 @@
 </head>
 
 <body>
+  <div class="header">
+    <h1 class="headerText" data-value="login" id='loginHeader'>Login</h1>
+  </div>
   <div class="sidebar" id="mySidebar">
     <div class="projects">
       <a class="sideLink" id='overviewTab'>Overview</a>
       <a class="sideLink" id='workoutTab'>Workout</a>
       <a class="sideLink" id='mealTab'>Meal</a>
+      <a class="sideLink" id='checkTab'>Checklist</a>
     </div>
     <div class="contact">
       <a class='sideLink' id='faqTab'>
@@ -28,7 +32,7 @@
       </a>
     </div>
   </div>
-  <div id="main" class="main">
+  <div id="main" class="main hidden">
     <div class="openCont">
       <button type="button" class="openbtn" id="sidebarBtn">
         <h1>☰</h1>
@@ -50,20 +54,26 @@
         <p>Question 3</p>
       </div>
     </div>
-    <div class="cardProject" id="p7None">
+    <div class="cardProject hidden" id='checkProj'>
+      <div class="cardCont checklist" id='workCheck'>
+        <h1>Workout Checklist</h1>
+      </div>
+      <div class="cardCont checklist" id='mealCheck'>
+        <h1>Meal Checklist</h1>
+      </div>
     </div>
-  </div>
+    <div class="cardProject" id='p7None'></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <script src='js-scripts/chart.js'></script>
   <script type="module" src="js-scripts/index.js"></script>
   <script type="module" src="js-scripts/form.js"></script>
   <script type="module" src="js-scripts/submit.js"></script>
   <script type="module" src="js-scripts/showRecs.js"></script>
   <script type="module" src="js-scripts/tabs.js"></script>
   <script type="module" src="js-scripts/login.js"></script>
+  <script type="module" src="js-scripts/checklist.js"></script>
 </body>
 
 </html>

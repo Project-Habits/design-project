@@ -32,6 +32,32 @@ function formHelper(name, type = 'text') {
       selectChoice.append(option);
     }
     label.innerHTML = name + ' (Calories)';
+  } else if (name == 'Workouts per week') {
+    let arr = ["1", "2", '3', '4', '5', '6', '7'];
+    let selectChoice = document.createElement('select');
+    selectChoice.id = 'workoutGoal';
+    gridRow.appendChild(selectChoice);
+
+    for (let i = 0; i < arr.length; i++) {
+      let option = document.createElement('option');
+      option.value = arr[i];
+      option.text = arr[i];
+      selectChoice.append(option);
+    }
+    label.innerHTML = name + " (Goal)";
+  } else if (name == 'Meals cooked per week') {
+    let arr = ["1", "2", '3', '4', '5', '6', '7'];
+    let selectChoice = document.createElement('select');
+    selectChoice.id = 'mealGoal';
+    gridRow.appendChild(selectChoice);
+
+    for (let i = 0; i < arr.length; i++) {
+      let option = document.createElement('option');
+      option.value = arr[i];
+      option.text = arr[i];
+      selectChoice.append(option);
+    }
+    label.innerHTML = name + " (Goal)";
   } else {
 
     input.id = name;
@@ -62,14 +88,15 @@ function createForm() {
   const form = document.createElement('form');
   form.classList.add('cardForm');
 
-  const nameRow = formHelper('Username');
-  form.appendChild(nameRow);
-
   const workoutRow = formHelper('Workout Type');
   form.appendChild(workoutRow);
+  const workoutGoal = formHelper('Workouts per week');
+  form.appendChild(workoutGoal);
 
   const mealRow = formHelper('Meal Type');
   form.appendChild(mealRow);
+  const mealGoal = formHelper('Meals cooked per week');
+  form.appendChild(mealGoal);
 
   const submitBut = document.createElement('button');
   submitBut.classList.add('submitBut');

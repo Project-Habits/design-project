@@ -61,9 +61,13 @@ async function sendLogin(username, password) {
 const loginForm = createLogin();
 document.body.appendChild(loginForm);
 const loginSubmit = document.getElementById('loginSubmit');
+const loginHeader = document.getElementById('loginHeader');
+const main = document.getElementById('main');
 loginSubmit.onclick = (event) => {
   event.preventDefault;
   loginForm.classList.toggle('hidden');
+  loginHeader.classList.toggle('hidden');
+  main.classList.toggle('hidden');
   const username = loginForm.querySelector("input[id='Username']").value;
   const password = loginForm.querySelector("input[id='Password']").value;
   sendLogin(username, password);
