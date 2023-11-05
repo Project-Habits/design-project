@@ -5,6 +5,8 @@ let mealCard = document.getElementById('mealCard');
 let mealTab = document.getElementById('mealTab');
 let faqBtn = document.getElementById('faqTab')
 let faq = document.getElementById('faqPage')
+let checkTab = document.getElementById('checkTab');
+let checkPage = document.getElementById('checkProj');
 let formBtn = document.getElementById('submitCont')
 // try making a function that reassigns these new variables when we click on something 
 function reassign() {
@@ -32,6 +34,9 @@ overviewTab.addEventListener('click', () => {
   setTimeout(() => {
     workoutCard.classList.remove('transforming');
     mealCard.classList.remove('transforming');
+  }, 350)
+  setTimeout(() => {
+    checkPage.classList.add('hidden');
   }, 350)
   setTimeout(() => {
     workoutCard.classList.remove('hidden');
@@ -65,6 +70,9 @@ workoutTab.addEventListener('click', () => {
     workoutCard.classList.remove('hidden');
   }, 350)
   setTimeout(() => {
+    checkPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
     workoutCard.classList.add('transforming');
   }, 400)
 })
@@ -95,10 +103,14 @@ mealTab.addEventListener('click', () => {
     mealCard.classList.remove('hidden');
   }, 350)
   setTimeout(() => {
+    checkPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
     mealCard.classList.add('transforming');
   }, 400)
 })
 faqBtn.addEventListener('click', () => {
+  reassign();
   setTimeout(() => {
     submitCont.classList.add('deleting');
   }, 150)
@@ -118,6 +130,36 @@ faqBtn.addEventListener('click', () => {
     workoutCard.classList.add('hidden');
   }, 350)
   setTimeout(() => {
+    checkPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
     faqPage.classList.remove('hidden');
+  }, 350)
+})
+checkTab.addEventListener('click', () => {
+  reassign();
+  setTimeout(() => {
+    submitCont.classList.add('deleting');
+  }, 150)
+  setTimeout(() => {
+    submitCont.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    mealCard.classList.add('deleting');
+  }, 150)
+  setTimeout(() => {
+    mealCard.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    workoutCard.classList.add('deleting');
+  }, 150)
+  setTimeout(() => {
+    workoutCard.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    faqPage.classList.add('hidden');
+  }, 350)
+  setTimeout(() => {
+    checkPage.classList.remove('hidden');
   }, 350)
 })

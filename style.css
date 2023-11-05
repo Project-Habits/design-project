@@ -315,10 +315,40 @@ a {
 
 .strike {
   text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
 }
 .mealLink {
   color: #C8D5BB;
 }
 .mealLink:hover{
   text-decoration: underline;
+}
+/* Checklists */
+.checklist{
+  height: 60vh;
+}
+.checkBtn{
+  display: grid;
+  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  border-radius: 10px;
+  border: 2px solid #47585C;
+  width: 50px;
+  height: 50px;
+}
+.checkBtn:hover {
+  border: 2px solid #dbebcc;
+}
+.checkBtn h2 {
+  margin: 0;
+  padding-bottom: 0px;
+  padding-top: 5px;
+  color: #C8D5BB;
+  background-image: linear-gradient(rgba(71, 88, 92, 0), rgba(71, 88, 92, 0));
+}
+.listDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  justify-content: center;
+  margin-bottom: 25px;
 }

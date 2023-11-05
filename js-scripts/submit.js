@@ -35,11 +35,11 @@ submitBut.onclick = (event) => {
 
   // Send data & fetch response to store in localStorage
   sendData(workoutEntry, workoutGoal, mealEntry, mealGoal);
+  localStorage.setItem('workoutGoal', workoutGoal);
+  localStorage.setItem('mealGoal', mealGoal);
   setTimeout(() => {
     displayBut.click();
   }, 250)
-  localStorage.setItem('workoutGoal', workoutGoal);
-  localStorage.setItem('mealGoal', mealGoal);
 
   // Update recommendations if form is resubmitted
   if (mealEle != null) {
