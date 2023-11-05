@@ -13,16 +13,15 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +59 ~/code/design-project/js-scripts/login.js
-badd +68 ~/code/design-project/index.html
-badd +111 ~/code/design-project/js-scripts/form.js
-badd +42 ~/code/design-project/js-scripts/submit.js
-badd +26 ~/code/design-project/js-scripts/showRecs.js
-badd +11 ~/code/design-project/js-scripts/checklist.js
-badd +307 ~/code/design-project/style.css
+badd +18 ~/code/design-project/index.html
+badd +90 ~/code/design-project/js-scripts/form.js
+badd +25 ~/code/design-project/js-scripts/submit.js
+badd +19 ~/code/design-project/js-scripts/showRecs.js
+badd +12 ~/code/design-project/js-scripts/checklist.js
+badd +4 ~/code/design-project/js-scripts/chart.js
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/submit.js
+edit ~/code/design-project/js-scripts/chart.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -39,30 +38,32 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-balt ~/code/design-project/js-scripts/form.js
-let s:l = 42 - ((25 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/checklist.js
+let s:l = 21 - ((20 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 42
-normal! 0
-wincmd w
-argglobal
-if bufexists(fnamemodify("~/code/design-project/js-scripts/form.js", ":p")) | buffer ~/code/design-project/js-scripts/form.js | else | edit ~/code/design-project/js-scripts/form.js | endif
-if &buftype ==# 'terminal'
-  silent file ~/code/design-project/js-scripts/form.js
-endif
-balt ~/code/design-project/js-scripts/submit.js
-let s:l = 112 - ((26 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 112
+keepjumps 21
 normal! 01|
 wincmd w
-wincmd =
+argglobal
+if bufexists(fnamemodify("~/code/design-project/js-scripts/checklist.js", ":p")) | buffer ~/code/design-project/js-scripts/checklist.js | else | edit ~/code/design-project/js-scripts/checklist.js | endif
+if &buftype ==# 'terminal'
+  silent file ~/code/design-project/js-scripts/checklist.js
+endif
+let s:l = 12 - ((10 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 12
+normal! 036|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
