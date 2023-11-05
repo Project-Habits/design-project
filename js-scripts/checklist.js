@@ -1,3 +1,5 @@
+// TODO: Fix submit button bug, adding too many checks and not deleting old ones
+// TODO: Store progress locally for checklists 
 let workoutChart = document.createElement('canvas');
 let workChartObj = ''
 let mealChart = document.createElement('canvas');
@@ -147,23 +149,3 @@ displayBut.addEventListener('click', () => {
   }
 })
 displayBut.click();
-// let exercises = document.getElementsByClassName('exercise');
-// let meal = document.querySelector('.mealName');
-// for (let i = 0; i, exercises.length; i++) {
-//   exercises[i].addEventListener('click', () => {
-//     exercises[i].classList.toggle('strike');
-//     meal = document.querySelector('.mealName');
-//     console.log(meal);
-//   })
-// }
-// TODO: add checklist elements to index.html (chart, checklist)
-// This will involve having a chart that has one dataset with the goal
-// and then a second with current progress & remaining in order to display inner circle
-// This chart needs to be updated whenever a new submit is sent in, or whenever
-// we have workout and meal plans to display
-// Plan for this: check if we have it in local storage, then create
-// chart if so. Update/create whenever a new submit is made as well
-// Step 1: Checklist element in index.html DONE
-// Step 2: Make checklist element have checklist based on goal # done
-// Step 3: Make checklist element have chart done
-// Step 4: Make it so that it updates whenever submit button is hit
