@@ -1,4 +1,4 @@
-// TODO: Fix submit button bug, adding too many checks and not deleting old ones
+// TODO: Unhide logins
 // TODO: Store progress locally for checklists 
 // Create all elements & assign var names to relevant containers
 let workoutChart = document.createElement('canvas');
