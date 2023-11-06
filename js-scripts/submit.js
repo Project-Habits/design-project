@@ -37,13 +37,9 @@ submitBut.onclick = (event) => {
   sendData(workoutEntry, workoutGoal, mealEntry, mealGoal);
   localStorage.setItem('workoutGoal', workoutGoal);
   localStorage.setItem('mealGoal', mealGoal);
-  setTimeout(() => {
-    displayBut.click();
-  }, 250)
 
   // Update recommendations if form is resubmitted
   if (mealEle != null) {
-    console.log('here');
     let workoutEle = document.getElementById('workoutCard');
     workoutEle.classList.add('deleting');
     mealEle = document.getElementById('mealCard');
@@ -53,5 +49,10 @@ submitBut.onclick = (event) => {
       workoutEle.remove();
       displayBut.click();
     }, 150)
+  } else {
+    setTimeout(() => {
+      displayBut.click();
+    }, 250)
+
   }
 }
