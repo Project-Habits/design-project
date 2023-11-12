@@ -42,7 +42,7 @@ function createLogin() {
 }
 
 async function sendLogin(username, password) {
-  fetch('http://127.0.0.1:8000', {
+  fetch('http://127.0.0.1:8000/login', {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -52,10 +52,11 @@ async function sendLogin(username, password) {
   })
     .then(response => response.json())
     .then(data => {
-      // localStorage.setItem("workout", data.workout);
       // localStorage.setItem("meal", data.meal);
       console.log('Input: ' + JSON.stringify({ "username": username, "password": password }))
       localStorage.setItem('username', JSON.stringify(data.username))
+      console.log(JSON.stringify(data.status))
+      return (JSON.stringify(data.status))
     })
 }
 const loginForm = createLogin();
@@ -65,10 +66,10 @@ const loginHeader = document.getElementById('loginHeader');
 const main = document.getElementById('main');
 loginSubmit.onclick = (event) => {
   event.preventDefault;
-  loginForm.classList.toggle('hidden');
-  loginHeader.classList.toggle('hidden');
-  main.classList.toggle('hidden');
   const username = loginForm.querySelector("input[id='Username']").value;
   const password = loginForm.querySelector("input[id='Password']").value;
   sendLogin(username, password);
+  loginForm.classList.toggle('hidden');
+  loginHeader.classList.toggle('hidden');
+  main.classList.toggle('hidden');
 }
