@@ -13,17 +13,19 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +23 ~/code/design-project/index.html
-badd +75 ~/code/design-project/js-scripts/form.js
-badd +36 ~/code/design-project/js-scripts/submit.js
-badd +45 ~/code/design-project/js-scripts/showRecs.js
-badd +2 ~/code/design-project/js-scripts/checklist.js
+badd +75 ~/code/design-project/index.html
+badd +91 ~/code/design-project/js-scripts/form.js
+badd +15 ~/code/design-project/js-scripts/submit.js
+badd +22 ~/code/design-project/js-scripts/showRecs.js
+badd +1 ~/code/design-project/js-scripts/checklist.js
 badd +343 ~/code/design-project/style.css
 badd +2 ~/code/design-project/js-scripts/chart.js
-badd +11 ~/code/design-project/js-scripts/tabs.js
+badd +38 ~/code/design-project/js-scripts/tabs.js
+badd +63 ~/code/design-project/js-scripts/login.js
+badd +1 ~/code/design-project/main.py
 argglobal
 %argdel
-edit ~/code/design-project/index.html
+edit ~/code/design-project/js-scripts/checklist.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -40,33 +42,31 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
-exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
+wincmd =
 argglobal
-balt ~/code/design-project/js-scripts/form.js
-let s:l = 40 - ((32 * winheight(0) + 20) / 40)
+balt ~/code/design-project/style.css
+let s:l = 190 - ((14 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 40
-normal! 010|
+keepjumps 190
+normal! 03|
 wincmd w
 argglobal
-if bufexists(fnamemodify("~/code/design-project/js-scripts/checklist.js", ":p")) | buffer ~/code/design-project/js-scripts/checklist.js | else | edit ~/code/design-project/js-scripts/checklist.js | endif
+if bufexists(fnamemodify("~/code/design-project/main.py", ":p")) | buffer ~/code/design-project/main.py | else | edit ~/code/design-project/main.py | endif
 if &buftype ==# 'terminal'
-  silent file ~/code/design-project/js-scripts/checklist.js
+  silent file ~/code/design-project/main.py
 endif
-balt ~/code/design-project/style.css
-let s:l = 3 - ((2 * winheight(0) + 20) / 40)
+balt ~/code/design-project/js-scripts/login.js
+let s:l = 2 - ((1 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
-normal! 0
+keepjumps 2
+normal! 02|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
-exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
+wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

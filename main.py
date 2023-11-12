@@ -1,6 +1,14 @@
-from fastapi import FastAPI
+from datetime import datetime, timedelta
+from typing import Annotated
+
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+
 
 app = FastAPI()
 
@@ -23,9 +31,17 @@ class Item(BaseModel):
     price: float
     tax: float | None = None
     tags: list[str] = []
+class User(BaseModel):
+    username: str
+    password: str
 @app.post("/")
-def return_status(recs: Recs):
+def return_status():
     myDict = {
     'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
   }
+    return myDict
+
+@app.post("/login")
+def return_statuss():
+    myDict = {'username': 'jhc737', 'status': 0}
     return myDict
