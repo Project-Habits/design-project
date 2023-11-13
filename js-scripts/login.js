@@ -1,4 +1,6 @@
+// DisplayBut is a button that is used to trigger events like displaying the recommendations
 const displayBut = document.getElementById("showRecs");
+// Helper function to create a form to be used for logging in
 function formHelper(name, type = "text") {
   const gridRow = document.createElement("div");
   gridRow.classList.add("gridRow");
@@ -18,6 +20,7 @@ function formHelper(name, type = "text") {
   return gridRow;
 }
 export default formHelper;
+// Create form
 function createLogin() {
   const formCont = document.createElement("div");
   formCont.classList.add("formCont");
@@ -42,6 +45,7 @@ function createLogin() {
   return formCont;
 }
 
+// Communicate with backend for login
 async function sendLogin(username, password) {
   console.log("send");
   fetch("http://127.0.0.1:8000/login", {
@@ -54,11 +58,10 @@ async function sendLogin(username, password) {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Try to handle the login here
+      // Handle the login here
       console.log(
         "Input: " + JSON.stringify({ username: username, password: password })
       );
-      localStorage.setItem("username", JSON.stringify(data.username));
       if (data.status == 1) {
         // Handle login success
         console.log("Login successful");
@@ -74,7 +77,7 @@ async function sendLogin(username, password) {
           localStorage.setItem("mealGoal", JSON.stringify(data.mealGoal));
           displayBut.click();
         } else {
-          // Do nothing, account data doesn't exist yet.
+          // Don't store anything , account data doesn't exist yet.
         }
       } else if (data.status == 0) {
         // Handle login failure
@@ -92,7 +95,5 @@ loginSubmit.onclick = (event) => {
   event.preventDefault;
   const username = loginForm.querySelector("input[id='Username']").value;
   const password = loginForm.querySelector("input[id='Password']").value;
-  sendLogin(username, password).then((status) => {
-    console.log("here");
-  });
+  sendLogin(username, password);
 };

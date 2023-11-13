@@ -1,25 +1,24 @@
-// TODO: Unhide logins
-// TODO: Store progress locally for checklists 
+// TODO: Store progress in database for checklists
 // Create all elements & assign var names to relevant containers
-let workoutChart = document.createElement('canvas');
-let workChartObj = ''
-let mealChart = document.createElement('canvas');
-let mealChartObj = ''
-const workCheck = document.getElementById('workCheck')
-let workList = document.createElement('div');
-workList.classList.add('listDiv');
-const mealCheck = document.getElementById('mealCheck')
-let mealList = document.createElement('div');
-mealList.classList.add('listDiv');
+let workoutChart = document.createElement("canvas");
+let workChartObj = "";
+let mealChart = document.createElement("canvas");
+let mealChartObj = "";
+const workCheck = document.getElementById("workCheck");
+let workList = document.createElement("div");
+workList.classList.add("listDiv");
+const mealCheck = document.getElementById("mealCheck");
+let mealList = document.createElement("div");
+mealList.classList.add("listDiv");
 let workGoal = localStorage.workoutGoal;
 let mealGoal = localStorage.mealGoal;
-const displayBut = document.getElementById('showRecs');
+const displayBut = document.getElementById("showRecs");
 
 // Track current progress
 let workCurrent = 0;
 let mealCurrent = 0;
 
-// Append 
+// Append to parent element
 workCheck.appendChild(workList);
 workCheck.appendChild(workoutChart);
 mealCheck.appendChild(mealList);
@@ -27,67 +26,63 @@ mealCheck.appendChild(mealChart);
 
 // Adding check boxes to checklist cards
 function addCheck(num, className) {
-  let button = document.createElement('button');
+  let button = document.createElement("button");
   button.classList.add(className);
-  let text = document.createElement('h2');
-  button.classList.add('checkBtn');
+  let text = document.createElement("h2");
+  button.classList.add("checkBtn");
   text.innerHTML = num;
   button.appendChild(text);
-  return button
+  return button;
 }
 // Strikethrough if clicked
 function checkButton(button) {
-  if (button.firstChild.classList.contains('strike')) {
-    button.firstChild.classList.remove('strike');
-    return 0
+  if (button.firstChild.classList.contains("strike")) {
+    button.firstChild.classList.remove("strike");
+    return 0;
   } else {
-    button.firstChild.classList.add('strike');
-    return 1
+    button.firstChild.classList.add("strike");
+    return 1;
   }
 }
 
 // Use displayBut as an event trigger
-displayBut.addEventListener('click', () => {
+displayBut.addEventListener("click", () => {
   workGoal = localStorage.workoutGoal;
   mealGoal = localStorage.mealGoal;
   // Using workoutGoal to determine whether or not the user has submitted the form
   // If user data exists, then we want to create the checklists for their tasks
   if (localStorage.workoutGoal != null) {
-    let workBtns = document.getElementsByClassName('workBtn');
+    let workBtns = document.getElementsByClassName("workBtn");
     if (workBtns.length < workGoal) {
       // Reset progress to 0
       workCurrent = 0;
       for (let i = workBtns.length + 1; i <= workGoal; i++) {
-        workList.appendChild(addCheck(i, 'workBtn'));
+        workList.appendChild(addCheck(i, "workBtn"));
       }
     } else if (workBtns.length > workGoal) {
       for (let i = workBtns.length; i > workGoal; i--) {
         workList.removeChild(workList.lastChild);
       }
     }
-    workBtns = document.getElementsByClassName('workBtn');
-    // Don't want to 
+    workBtns = document.getElementsByClassName("workBtn");
+    // Don't want to continously create new charts, so if chart doesn't exist, create chart
     if (!workChartObj.config) {
       workChartObj = new Chart(workoutChart, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
-          labels: ['Workout', 'Remaining'],
-          datasets: [{
-            label: 'Current Workout Goal',
-            data: [workGoal, 0],
-            backgroundColor: [
-              'rgb(144, 237, 144)',
-              'rgb(144, 237, 144)'
-            ]
-          },
-          {
-            label: 'Current progress',
-            data: [workCurrent, workGoal - workCurrent],
-            backgroundColor: [
-              'rgb(52, 207, 235)',
-              'rgb(128, 128, 128)'
-            ]
-          }]
+          labels: ["Workout", "Remaining"],
+          datasets: [
+            {
+              label: "Current Workout Goal",
+              data: [workGoal, 0],
+              backgroundColor: ["rgb(144, 237, 144)", "rgb(144, 237, 144)"],
+            },
+            {
+              label: "Current progress",
+              data: [workCurrent, workGoal - workCurrent],
+              backgroundColor: ["rgb(52, 207, 235)", "rgb(128, 128, 128)"],
+            },
+          ],
         },
         options: {
           responsive: true,
@@ -95,12 +90,16 @@ displayBut.addEventListener('click', () => {
             legend: {
               display: false,
             },
-          }
-        }
+          },
+        },
       });
     } else {
+      // Otherwise just update charts
       workChartObj.config._config.data.datasets[0].data = [workGoal, 0];
-      workChartObj.config._config.data.datasets[1].data = [workCurrent, workGoal - workCurrent];
+      workChartObj.config._config.data.datasets[1].data = [
+        workCurrent,
+        workGoal - workCurrent,
+      ];
       workChartObj.update();
     }
     // Add an event listener for each individual check box
@@ -108,17 +107,23 @@ displayBut.addEventListener('click', () => {
     for (let i = 0; i < workBtns.length; i++) {
       let replaceEle = workBtns[i].cloneNode(true);
       workBtns[i].parentNode.replaceChild(replaceEle, workBtns[i]);
-      workBtns[i].addEventListener('click', () => {
+      workBtns[i].addEventListener("click", () => {
         if (checkButton(workBtns[i], workCurrent) == 1) {
           workCurrent += 1;
-          workChartObj.config._config.data.datasets[1].data = [workCurrent, workGoal - workCurrent];
+          workChartObj.config._config.data.datasets[1].data = [
+            workCurrent,
+            workGoal - workCurrent,
+          ];
           workChartObj.update();
         } else {
           workCurrent -= 1;
-          workChartObj.config._config.data.datasets[1].data = [workCurrent, workGoal - workCurrent];
+          workChartObj.config._config.data.datasets[1].data = [
+            workCurrent,
+            workGoal - workCurrent,
+          ];
           workChartObj.update();
         }
-      })
+      });
     }
   } else {
     // do nothing
@@ -126,39 +131,35 @@ displayBut.addEventListener('click', () => {
 
   // Same thing as workout goal, but for meals
   if (localStorage.mealGoal != null) {
-    let mealBtns = document.getElementsByClassName('mealBtn');
+    let mealBtns = document.getElementsByClassName("mealBtn");
     if (mealBtns.length < mealGoal) {
       mealCurrent = 0;
       for (let i = mealBtns.length + 1; i <= mealGoal; i++) {
-        mealList.appendChild(addCheck(i, 'mealBtn'));
+        mealList.appendChild(addCheck(i, "mealBtn"));
       }
     } else if (mealBtns.length > mealGoal) {
       for (let i = mealBtns.length; i > mealGoal; i--) {
         mealList.removeChild(mealList.lastChild);
       }
     }
-    mealBtns = document.getElementsByClassName('mealBtn');
+    mealBtns = document.getElementsByClassName("mealBtn");
     if (!mealChartObj.config) {
       mealChartObj = new Chart(mealChart, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
-          labels: ['Meal Goal', 'Remaining'],
-          datasets: [{
-            label: 'Current Cooking Goal',
-            data: [mealGoal, 0],
-            backgroundColor: [
-              'rgb(144, 237, 144)',
-              'rgb(144, 237, 144)'
-            ]
-          },
-          {
-            label: 'Current progress',
-            data: [mealCurrent, mealGoal - mealCurrent],
-            backgroundColor: [
-              'rgb(52, 207, 235)',
-              'rgb(128, 128, 128)'
-            ]
-          }]
+          labels: ["Meal Goal", "Remaining"],
+          datasets: [
+            {
+              label: "Current Cooking Goal",
+              data: [mealGoal, 0],
+              backgroundColor: ["rgb(144, 237, 144)", "rgb(144, 237, 144)"],
+            },
+            {
+              label: "Current progress",
+              data: [mealCurrent, mealGoal - mealCurrent],
+              backgroundColor: ["rgb(52, 207, 235)", "rgb(128, 128, 128)"],
+            },
+          ],
         },
         options: {
           responsive: true,
@@ -166,31 +167,40 @@ displayBut.addEventListener('click', () => {
             legend: {
               display: false,
             },
-          }
-        }
+          },
+        },
       });
     } else {
       mealChartObj.config._config.data.datasets[0].data = [mealGoal, 0];
-      mealChartObj.config._config.data.datasets[1].data = [mealCurrent, mealGoal - mealCurrent];
+      mealChartObj.config._config.data.datasets[1].data = [
+        mealCurrent,
+        mealGoal - mealCurrent,
+      ];
       mealChartObj.update();
     }
     for (let i = 0; i < mealBtns.length; i++) {
       let replaceEle = mealBtns[i].cloneNode(true);
       mealBtns[i].parentNode.replaceChild(replaceEle, mealBtns[i]);
-      mealBtns[i].addEventListener('click', () => {
+      mealBtns[i].addEventListener("click", () => {
         if (checkButton(mealBtns[i], mealCurrent) == 1) {
           mealCurrent += 1;
-          mealChartObj.config._config.data.datasets[1].data = [mealCurrent, mealGoal - mealCurrent];
+          mealChartObj.config._config.data.datasets[1].data = [
+            mealCurrent,
+            mealGoal - mealCurrent,
+          ];
           mealChartObj.update();
         } else {
           mealCurrent -= 1;
-          mealChartObj.config._config.data.datasets[1].data = [mealCurrent, mealGoal - mealCurrent];
+          mealChartObj.config._config.data.datasets[1].data = [
+            mealCurrent,
+            mealGoal - mealCurrent,
+          ];
           mealChartObj.update();
         }
-      })
+      });
     }
   } else {
     // do nothing
   }
-})
+});
 displayBut.click();
