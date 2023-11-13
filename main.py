@@ -1,22 +1,21 @@
-from datetime import datetime, timedelta
-from typing import Annotated
-
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-# from jose import JWTError, jwt
-# from passlib.context import CryptContext
+from fastapi import FastAPI
 from pydantic import BaseModel
+from passlib.context import CryptContext
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-
-# to get a string like this run:
-# openssl rand -hex 32
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 
 app = FastAPI()
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+class Form(BaseModel):
+    workout: str
+    workoutGoal: str
+    meal: str
+    mealGoal: str
+
+class User(BaseModel):
+    username: str
+    password: str
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,28 +25,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-class Recs(BaseModel):
-    username: str
-    workout: str
-    meal: str
-class Item(BaseModel):
-    name: str
-    description: str | None = None
-    price: float
-    tax: float | None = None
-    tags: list[str] = []
-class User(BaseModel):
-    username: str
-    password: str
 @app.post("/")
-def return_status():
-    myDict = {
+def return_status(form: Form):
+    # Here is where we would run the algorithm to determine which workout and meal to return
+    exampleOutput = {
     'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
-  }
-    return myDict
+    }
+    return exampleOutput 
 
 @app.post("/login")
-def return_login(user: User):
-    myDict = {'username': 'jhc737', 'status': 0, 'formData': user}
-    return myDict
+def login(user: User):
+    hashed_password = pwd_context.hash(user.password)
+    # Here you'd want to check for the username in the database and return the data
+    # ...
+    # Let me know how you guys plan on formatting this data so I can update it in the JS accordingly
+    # This is just an example of what the data would look like
+    # Normally you would add another condition below like hashed_password = whatever you get from the database
+    # I imagine that if we don't have an account, it would just return empty strings for each of the fields like below, and then everytime we make a change to the data, we would make a call to the database
+    if (user.username == "test"):
+        example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'workoutGoal': 1, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}, 'mealGoal': 4, 'status': 1}
+    else:
+        example_data = {'username': '', 'password': '', 'hashedpassword': '', 'workout': '', 'meal': '', 'status': 0}
+    return example_data 

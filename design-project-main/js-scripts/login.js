@@ -55,6 +55,7 @@ async function sendLogin(username, password) {
       // localStorage.setItem("meal", data.meal);
       console.log('Input: ' + JSON.stringify({ "username": username, "password": password }))
       localStorage.setItem('username', JSON.stringify(data.username))
+      console.log('Output: ' + JSON.stringify(data.username))
       console.log(JSON.stringify(data.status))
       return (JSON.stringify(data.status))
     })

@@ -13,17 +13,56 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +34 ~/code/design-project/main.py
+badd +52 main.py
+badd +149 ~/code/design-project/design-project-main/login.py
+badd +19 ~/code/design-project/design-project-main/js-scripts/login.js
+badd +25 ~/code/design-project/design-project-main/js-scripts/checklist.js
+badd +28 ~/code/design-project/design-project-main/suggestions_algo.py
 argglobal
 %argdel
-edit ~/code/design-project/main.py
+edit ~/code/design-project/design-project-main/login.py
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 argglobal
-let s:l = 51 - ((32 * winheight(0) + 20) / 41)
+balt ~/code/design-project/design-project-main/js-scripts/login.js
+let s:l = 36 - ((34 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 51
-normal! 017|
+keepjumps 36
+normal! 0
+wincmd w
+argglobal
+if bufexists(fnamemodify("main.py", ":p")) | buffer main.py | else | edit main.py | endif
+if &buftype ==# 'terminal'
+  silent file main.py
+endif
+balt ~/code/design-project/design-project-main/login.py
+let s:l = 36 - ((35 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 36
+normal! 032|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 85) / 171)
+exe 'vert 2resize ' . ((&columns * 85 + 85) / 171)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -31,6 +70,8 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
