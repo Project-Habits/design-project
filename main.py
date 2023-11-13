@@ -3,8 +3,8 @@ from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+# from jose import JWTError, jwt
+# from passlib.context import CryptContext
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -48,6 +48,6 @@ def return_status():
     return myDict
 
 @app.post("/login")
-def return_statuss():
-    myDict = {'username': 'jhc737', 'status': 0}
+def return_login(user: User):
+    myDict = {'username': 'jhc737', 'status': 0, 'formData': user}
     return myDict

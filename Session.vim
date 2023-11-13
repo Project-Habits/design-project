@@ -13,60 +13,17 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +75 ~/code/design-project/index.html
-badd +91 ~/code/design-project/js-scripts/form.js
-badd +15 ~/code/design-project/js-scripts/submit.js
-badd +22 ~/code/design-project/js-scripts/showRecs.js
-badd +1 ~/code/design-project/js-scripts/checklist.js
-badd +343 ~/code/design-project/style.css
-badd +2 ~/code/design-project/js-scripts/chart.js
-badd +38 ~/code/design-project/js-scripts/tabs.js
-badd +63 ~/code/design-project/js-scripts/login.js
-badd +1 ~/code/design-project/main.py
+badd +34 ~/code/design-project/main.py
 argglobal
 %argdel
-edit ~/code/design-project/js-scripts/checklist.js
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-wincmd =
+edit ~/code/design-project/main.py
 argglobal
-balt ~/code/design-project/style.css
-let s:l = 190 - ((14 * winheight(0) + 20) / 40)
+let s:l = 51 - ((32 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 190
-normal! 03|
-wincmd w
-argglobal
-if bufexists(fnamemodify("~/code/design-project/main.py", ":p")) | buffer ~/code/design-project/main.py | else | edit ~/code/design-project/main.py | endif
-if &buftype ==# 'terminal'
-  silent file ~/code/design-project/main.py
-endif
-balt ~/code/design-project/js-scripts/login.js
-let s:l = 2 - ((1 * winheight(0) + 20) / 40)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 2
-normal! 02|
-wincmd w
-2wincmd w
-wincmd =
+keepjumps 51
+normal! 017|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -74,8 +31,6 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
