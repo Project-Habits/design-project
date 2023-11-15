@@ -1,50 +1,123 @@
-from fastapi import FastAPI
+import bottle
 from pydantic import BaseModel
-from passlib.context import CryptContext
-from fastapi.middleware.cors import CORSMiddleware
+from bottle import response
+from bottle_postgresql import Configuration, Database
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy.ext.asyncio import AsyncSession
 
-app = FastAPI()
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:playerubg209@localhost/projhabits"
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-class Form(BaseModel):
-    workout: str
-    workoutGoal: str
-    meal: str
-    mealGoal: str
-
-class User(BaseModel):
-    username: str
-    password: str
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL
 )
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+async def get_db():
+    session = AsyncSession(engine)
+    try:
+        yield session
+    finally:
+        await session.close()
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+
+
+class Recs(BaseModel):
+    username: str
+    workout: str
+    meal: str
+
+configuration_dict = {
+    'connect_timeout': 10,
+    'dbname': 'projhabits',
+    'host': 'localhost',
+    'password': 'playerubg209',     # insert db password
+    'port': 5435,       # insert port number here
+    'user': 'postgres'
+}
+
+configuration = Configuration(configuration_dict=configuration_dict)
+def connect():
+    return Database(configuration)
+
+class EnableCors(object):
+    name = 'enable_cors'
+    api = 2
+
+    def apply(self, fn, context):
+        def _enable_cors(*args, **kwargs):
+            # set CORS headers
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
+            if bottle.request.method != 'OPTIONS':
+                # actual request; reply with the actual response
+                return fn(*args, **kwargs)
+
+        return _enable_cors
+
+
+app = bottle.app()
+
+@app.route('/', method=['OPTIONS', 'GET'])
+def lvambience():
+    response.headers['Content-type'] = 'application/json'
+    # logging.debug('reached')
+    # print('reached again')
+    print('landed')
+    # test to see if it writes to db --- it does
+
+    return '[1]'
 
 @app.post("/")
-def return_status(form: Form):
-    # Here is where we would run the algorithm to determine which workout and meal to return
-    exampleOutput = {
+def return_status():
+    print('returned')
+    myDict = {
     'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
     }
-    return exampleOutput 
+    with connect() as connection:
+        (
+            connection
+            .insert('meals')
+            .set('uid', 1)
+            .set('mid', 1)
+            .set('mealname', myDict['meal']['Name'])
+            .set('calories', 1400)
+            .execute()   
+        )
+    with connect() as connection:
+        (
+            connection
+            .insert('workouts')
+            .set('uid', 1)
+            .set('wid', 1)
+            .set('workoutname', 'Bench Press') # Need to create field for workout name
+            .set('calories_burned', 400)
+            .execute()   
+        )
+    return myDict
 
 @app.post("/login")
-def login(user: User):
-    hashed_password = pwd_context.hash(user.password)
-    # Here you'd want to check for the username in the database and return the data
-    # ...
-    # Let me know how you guys plan on formatting this data so I can update it in the JS accordingly
-    # Normally you would add another condition below like hashed_password = whatever you get from the database
-    # I imagine that if we don't have an account, it would just return empty strings for each of the fields like below, and then everytime we make a change to the data, we would make a call to the database
-    if (user.username == "test"):
-        # This is just an example of what the data would look like
-        example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'workoutGoal': 1, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}, 'mealGoal': 4, 'status': 1}
-    else:
-        # TODO: create other cases where the user doesn't exist and one where the password is wrong. below would be for if the password is wrong, as shown by status = 0
-        example_data = {'username': '', 'password': '', 'hashedpassword': '', 'workout': '', 'meal': '', 'status': 0}
-    return example_data 
+def get_user():
+    print('logging in...')
+    with connect() as connection:
+        (
+            connection
+            .execute('SELECT uid FROM users WHERE uid = {}'.format(1))
+        )
+
+app.install(EnableCors())
+
+app.run(port=8000)
