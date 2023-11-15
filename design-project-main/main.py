@@ -2,6 +2,36 @@ import bottle
 from pydantic import BaseModel
 from bottle import response
 from bottle_postgresql import Configuration, Database
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy.ext.asyncio import AsyncSession
+
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:playerubg209@localhost/projhabits"
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL
+)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+async def get_db():
+    session = AsyncSession(engine)
+    try:
+        yield session
+    finally:
+        await session.close()
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+
 
 class Recs(BaseModel):
     username: str
@@ -12,8 +42,8 @@ configuration_dict = {
     'connect_timeout': 10,
     'dbname': 'projhabits',
     'host': 'localhost',
-    'password': '',     # insert db password
-    'port': 0000,       # insert port number here
+    'password': 'playerubg209',     # insert db password
+    'port': 5435,       # insert port number here
     'user': 'postgres'
 }
 
@@ -78,7 +108,16 @@ def return_status():
             .execute()   
         )
     return myDict
-    
+
+@app.post("/login")
+def get_user():
+    print('logging in...')
+    with connect() as connection:
+        (
+            connection
+            .execute('SELECT uid FROM users WHERE uid = {}'.format(1))
+        )
+
 app.install(EnableCors())
 
 app.run(port=8000)
