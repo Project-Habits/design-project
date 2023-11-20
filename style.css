@@ -120,6 +120,12 @@ a {
 .blur {
   filter: blur(4px);
 }
+#loginButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
 /* Form Styling */
 .formCont { /*Form container*/

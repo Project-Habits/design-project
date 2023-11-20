@@ -36,12 +36,22 @@ function createLogin() {
 
   formCont.appendChild(form);
 
+  const buttonsRow = document.createElement("div");
   const submitBut = document.createElement("button");
+  const registerBut = document.createElement("button");
+  registerBut.classList.add("submitBut");
+  registerBut.innerHTML = "Register";
+  registerBut.setAttribute("type", "button");
+  registerBut.id = "loginRegister";
+  buttonsRow.appendChild(registerBut);
   submitBut.classList.add("submitBut");
   submitBut.innerHTML = "Submit";
   submitBut.setAttribute("type", "button");
   submitBut.id = "loginSubmit";
-  form.appendChild(submitBut);
+  buttonsRow.appendChild(submitBut);
+  buttonsRow.classList.add("gridRow");
+  buttonsRow.id = "loginButtons";
+  formCont.appendChild(buttonsRow);
   return formCont;
 }
 
@@ -69,6 +79,7 @@ async function sendLogin(username, password) {
         loginHeader.classList.toggle("hidden");
         main.classList.toggle("hidden");
         if (data.meal) {
+          localStorage.clear();
           localStorage.setItem("username", JSON.stringify(data.username));
           localStorage.setItem("meal", JSON.stringify(data.meal));
           localStorage.setItem("workout", JSON.stringify(data.workout));
@@ -77,12 +88,45 @@ async function sendLogin(username, password) {
           localStorage.setItem("mealGoal", JSON.stringify(data.mealGoal));
           displayBut.click();
         } else {
+          localStorage.clear();
           // Don't store anything , account data doesn't exist yet.
         }
       } else if (data.status == 0) {
         // Handle login failure
         console.log("Login failed");
         alert("Login failed!");
+      }
+    });
+}
+async function sendRegister(username, password) {
+  console.log("send");
+  fetch("http://127.0.0.1:8000/register", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username: username, password: password }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the register here
+      console.log(
+        "Input: " + JSON.stringify({ username: username, password: password })
+      );
+      if (data.status == 1) {
+        // Handle register success
+        localStorage.clear();
+        console.log("Register successful");
+        loginForm.classList.toggle("hidden");
+        loginHeader.classList.toggle("hidden");
+        main.classList.toggle("hidden");
+        // Don't store anything , account data doesn't exist yet.
+      } else if (data.status == 0) {
+        // Handle register failure
+        // TODO: Let me know what to put here for failure.
+        console.log("Register failed");
+        alert("Register failed!");
       }
     });
 }
@@ -96,4 +140,9 @@ loginSubmit.onclick = (event) => {
   const username = loginForm.querySelector("input[id='Username']").value;
   const password = loginForm.querySelector("input[id='Password']").value;
   sendLogin(username, password);
+};
+loginSubmit.onclick = (event) => {
+  event.preventDefault;
+  const username = loginForm.querySelector("input[id='Username']").value;
+  const password = loginForm.querySelector("input[id='Password']").value;
 };
