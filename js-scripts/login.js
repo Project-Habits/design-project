@@ -141,8 +141,9 @@ loginSubmit.onclick = (event) => {
   const password = loginForm.querySelector("input[id='Password']").value;
   sendLogin(username, password);
 };
-loginSubmit.onclick = (event) => {
+loginRegister.onclick = (event) => {
   event.preventDefault;
   const username = loginForm.querySelector("input[id='Username']").value;
   const password = loginForm.querySelector("input[id='Password']").value;
+  sendRegister(username, password);
 };

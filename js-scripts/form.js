@@ -38,7 +38,7 @@ function formHelper(name, type = "text") {
     let selectChoice = document.createElement("select");
     selectChoice.id = "dietChoice";
     gridRow.appendChild(selectChoice);
-    
+
     for (let i = 0; i < arr.length; i++) {
       let option = document.createElement("option");
       option.value = arr[i];
@@ -64,7 +64,7 @@ function formHelper(name, type = "text") {
     let selectChoice = document.createElement("select");
     selectChoice.id = "proteinChoice";
     gridRow.appendChild(selectChoice);
-    
+
     for (let i = 0; i < arr.length; i++) {
       let option = document.createElement("option");
       option.value = arr[i];
@@ -116,11 +116,24 @@ function createForm() {
   const form = document.createElement("form");
   form.classList.add("cardForm");
 
-  // TODO: Add titles to the form
+  const workoutTitle = document.createElement("div");
+  workoutTitle.classList.add("gridRow");
+  const workoutTitleText = document.createElement("p");
+  workoutTitleText.innerHTML = "Workout Preferences";
+  workoutTitle.appendChild(workoutTitleText);
+  form.appendChild(workoutTitle);
+
   const workoutRow = formHelper("Workout Type");
   form.appendChild(workoutRow);
   const workoutGoal = formHelper("Workouts per week");
   form.appendChild(workoutGoal);
+
+  const mealTitle = document.createElement("div");
+  mealTitle.classList.add("gridRow");
+  const mealTitleText = document.createElement("p");
+  mealTitleText.innerHTML = "Meal Preferences";
+  mealTitle.appendChild(mealTitleText);
+  form.appendChild(mealTitle);
 
   const dietRow = formHelper("Diet Type");
   form.appendChild(dietRow);
