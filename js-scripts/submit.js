@@ -5,7 +5,7 @@ let userData = {
   table: [],
 };
 // Communicate with backend for sending data from form
-async function sendData(workout, workGoal, meal, mealGoal) {
+async function sendData(workout, workGoal, mealDiet, mealProtein, mealCalorie, mealGoal) {
   fetch("http://127.0.0.1:8000", {
     method: "POST",
     headers: {
@@ -15,8 +15,10 @@ async function sendData(workout, workGoal, meal, mealGoal) {
     body: JSON.stringify({
       workout: workout,
       workoutGoal: workGoal,
-      meal: meal,
-      mealGoal: mealGoal,
+      mealDiet: mealDiet,
+      mealProtein: mealProtein,
+      mealCalorie: mealCalorie,
+      mealGoal: mealGoal
     }),
   })
     .then((response) => response.json())
@@ -26,8 +28,10 @@ async function sendData(workout, workGoal, meal, mealGoal) {
           JSON.stringify({
             workout: workout,
             workoutGoal: workGoal,
-            meal: meal,
-            mealGoal: mealGoal,
+            mealDiet: mealDiet,
+            mealProtein: mealProtein,
+            mealCalorie: mealCalorie,
+            mealGoal: mealGoal
           })
       );
       localStorage.setItem("workout", JSON.stringify(data.workout));
@@ -43,12 +47,14 @@ submitBut.onclick = (event) => {
   document.querySelector(".main").classList.toggle("blur");
   // Read the form values into variables
   const workoutEntry = document.getElementById("workoutChoice").value;
-  const mealEntry = document.getElementById("mealChoice").value;
+  const mealDiet = document.getElementById("dietChoice").value;
   const workoutGoal = document.getElementById("workoutGoal").value;
   const mealGoal = document.getElementById("mealGoal").value;
+  const mealProtein = document.getElementById("proteinChoice").value;
+  const mealCalorie = document.getElementById("calorieChoice").value;
 
   // Send data & fetch response to store in localStorage
-  sendData(workoutEntry, workoutGoal, mealEntry, mealGoal);
+  sendData(workoutEntry, workoutGoal, mealDiet, mealProtein, mealCalorie, mealGoal);
   localStorage.setItem("workoutGoal", workoutGoal);
   localStorage.setItem("mealGoal", mealGoal);
 

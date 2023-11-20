@@ -20,19 +20,32 @@ function formHelper(name, type = "text") {
       selectChoice.append(option);
     }
     label.innerHTML = name;
-  } else if (name == "Meal Type") {
-    let arr = ["<1500", "1500-2000", "2000+"];
+  } else if (name == "Caloric Goal") {
+    let caloriesArr = ["<1800", "~2000", ">2200"];
     let selectChoice = document.createElement("select");
-    selectChoice.id = "mealChoice";
+    selectChoice.id = "calorieChoice";
     gridRow.appendChild(selectChoice);
 
+    for (let i = 0; i < caloriesArr.length; i++) {
+      let option = document.createElement("option");
+      option.value = caloriesArr[i];
+      option.text = caloriesArr[i];
+      selectChoice.append(option);
+    }
+    label.innerHTML = name + " (Calories)";
+  } else if (name == "Diet Type") {
+    let arr = ["No restrictions", "Vegetarian", "Vegan"];
+    let selectChoice = document.createElement("select");
+    selectChoice.id = "dietChoice";
+    gridRow.appendChild(selectChoice);
+    
     for (let i = 0; i < arr.length; i++) {
       let option = document.createElement("option");
       option.value = arr[i];
       option.text = arr[i];
       selectChoice.append(option);
     }
-    label.innerHTML = name + " (Calories)";
+    label.innerHTML = "Meal " + name;
   } else if (name == "Workouts per week") {
     let arr = ["1", "2", "3", "4", "5", "6", "7"];
     let selectChoice = document.createElement("select");
@@ -46,6 +59,19 @@ function formHelper(name, type = "text") {
       selectChoice.append(option);
     }
     label.innerHTML = name + " (Goal)";
+  } else if (name == "Protein Content") {
+    let arr = ["Low", "Medium", "High"];
+    let selectChoice = document.createElement("select");
+    selectChoice.id = "proteinChoice";
+    gridRow.appendChild(selectChoice);
+    
+    for (let i = 0; i < arr.length; i++) {
+      let option = document.createElement("option");
+      option.value = arr[i];
+      option.text = arr[i];
+      selectChoice.append(option);
+    }
+    label.innerHTML = name;
   } else if (name == "Meals cooked per week") {
     let arr = ["1", "2", "3", "4", "5", "6", "7"];
     let selectChoice = document.createElement("select");
@@ -90,13 +116,18 @@ function createForm() {
   const form = document.createElement("form");
   form.classList.add("cardForm");
 
+  // TODO: Add titles to the form
   const workoutRow = formHelper("Workout Type");
   form.appendChild(workoutRow);
   const workoutGoal = formHelper("Workouts per week");
   form.appendChild(workoutGoal);
 
-  const mealRow = formHelper("Meal Type");
-  form.appendChild(mealRow);
+  const dietRow = formHelper("Diet Type");
+  form.appendChild(dietRow);
+  const calorieRow = formHelper("Caloric Goal");
+  form.appendChild(calorieRow);
+  const proteinRow = formHelper("Protein Content");
+  form.appendChild(proteinRow);
   const mealGoal = formHelper("Meals cooked per week");
   form.appendChild(mealGoal);
 

@@ -10,7 +10,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class Form(BaseModel):
     workout: str
     workoutGoal: str
-    meal: str
+    mealDiet: str
+    mealProtein: str
+    mealCalorie: str
     mealGoal: str
 
 class User(BaseModel):
