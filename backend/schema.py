@@ -12,6 +12,7 @@ class Meal(BaseModel):
     mealname: str
     calories: int
     m_type: str
+    diet_type: str
 
     class Config:
         orm_mode = True

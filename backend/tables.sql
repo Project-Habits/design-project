@@ -15,7 +15,8 @@ CREATE TABLE meals (
 	mid INT PRIMARY KEY,
 	mealname VARCHAR(30),
 	calories INT,
-	m_type CHAR(1));
+	m_type CHAR(1),
+	diet_type VARCHAR(10));
 	
 CREATE TABLE workouts (
 	wid INT,

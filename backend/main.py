@@ -10,7 +10,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert, delete
+from sqlalchemy import select, insert, delete, and_, or_
 
 import uvicorn
 from fastapi_sqlalchemy import DBSessionMiddleware, db
@@ -28,6 +28,8 @@ from models import Workout as ModelWorkout
 from models import User_Meal as ModelUM
 from models import User_Workout as ModelUW
 from models import Activity as ModelActivity
+
+import random
 
 
 # to get a string like this run:
@@ -51,12 +53,14 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI()
 
-app.add_middleware(DBSessionMiddleware, db_url="postgresql://postgres:playerubg209@localhost:5435/projhabits")
+app.add_middleware(DBSessionMiddleware, db_url="postgresql://postgres:password@localhost:5432/projhabits")
 
 class Form(BaseModel):
     workout: str
     workoutGoal: str
-    meal: str
+    mealDiet: str
+    mealProtein: str
+    mealCalorie: str
     mealGoal: str
 
 app.add_middleware(
@@ -129,11 +133,79 @@ class LoginInfo(BaseModel):
     username: str
     password: str
 
+
 @app.post("/")
 def return_status(form: Form):
     # Here is where we would run the algorithm to determine which workout and meal to return
+    if(form.mealCalorie == "<1800"):
+        bfName = db.session.query(ModelMeal).filter(ModelMeal.calories<1800).first().mealname
+    elif (form.mealCalorie == "~2000"):
+        bfName = db.session.query(ModelMeal).filter(ModelMeal.calories==2000).first().mealname
+    else:
+        bfName = db.session.query(ModelMeal).filter(ModelMeal.calories>2200).first().mealname
+
+    if(form.mealDiet == "Vegan"):
+        if(form.mealCalorie == "<1800"):
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='b', ModelMeal.diet_type=='vegan')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='l', ModelMeal.diet_type=='vegan')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='d', ModelMeal.diet_type=='vegan')).all()
+        elif (form.mealCalorie == "~2000"):
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='b', ModelMeal.diet_type=='vegan')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='l', ModelMeal.diet_type=='vegan')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='d', ModelMeal.diet_type=='vegan')).all()
+        else:
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='b', ModelMeal.diet_type=='vegan')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='l', ModelMeal.diet_type=='vegan')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='d', ModelMeal.diet_type=='vegan')).all()
+    elif (form.mealDiet == "Vegetarian"):
+        if(form.mealCalorie == "<1800"):
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='b', ModelMeal.diet_type!='any')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='l', ModelMeal.diet_type!='any')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='d', ModelMeal.diet_type!='any')).all()
+        elif (form.mealCalorie == "~2000"):
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='b', ModelMeal.diet_type!='any')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='l', ModelMeal.diet_type!='any')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='d', ModelMeal.diet_type!='any')).all()
+        else:
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='b', ModelMeal.diet_type!='any')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='l', ModelMeal.diet_type!='any')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='d', ModelMeal.diet_type!='any')).all()
+    else:
+        if(form.mealCalorie == "<1800"):
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='b')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='l')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories<1800, ModelMeal.m_type=='d')).all()
+        elif (form.mealCalorie == "~2000"):
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='b')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='l')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories==2000, ModelMeal.m_type=='d')).all()
+        else:
+            bfList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='b')).all()
+            lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='l')).all()
+            dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='d')).all()
+
+    #print(type(db.session.query(ModelWorkout).all()))
+    if(form.workout == "Strength"):
+        workoutList = db.session.query(ModelWorkout).filter(ModelWorkout.w_type=='S').all()
+    else:
+        workoutList = db.session.query(ModelWorkout).filter(ModelWorkout.w_type=='C').all()
+    randIndex = random.randrange(len(bfList))
+    bfName = bfList[randIndex].mealname
+    randIndex = random.randrange(len(lunchList))
+    lunchName = lunchList[randIndex].mealname
+    randIndex = random.randrange(len(dinList))
+    dinName = dinList[randIndex].mealname
+    workoutDict = {}
+    for i in range(int(form.workoutGoal)):
+        randIndex = random.randrange(len(workoutList))
+        workoutDict.update({workoutList[randIndex].workoutname: ""})
+        workoutList.pop(randIndex)
     exampleOutput = {
-    'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
+        'workout': workoutDict,
+        'meal': {
+            "Name": "Breakfast: " + bfName + "\nLunch: " + lunchName + "\nDinner: " + dinName,
+            "Link": ""
+        }
     }
     return exampleOutput 
 
