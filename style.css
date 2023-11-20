@@ -363,3 +363,26 @@ a {
   justify-content: center;
   margin-bottom: 25px;
 }
+
+/* Here for button styling outside of classes */
+.styleBtn{
+  display: grid;
+  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  border-radius: 10px;
+  border: 2px solid #47585C;
+  width: 50px;
+  height: 50px;
+}
+.styleBtn:hover {
+  border: 2px solid #dbebcc;
+}
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
+}
+.buttonRow > * {
+  color: #C8D5BB;
+}
