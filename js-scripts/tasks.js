@@ -1,3 +1,4 @@
+// TODO: Functionality, add this to a display event listener
 // Get the workout card container element
 const workoutCardContainer = document.getElementById("workoutCard");
 
