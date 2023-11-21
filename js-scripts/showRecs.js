@@ -18,7 +18,6 @@ function mealCard(obj) {
   cardEle.append(headerEle);
 
   const keys = Object.keys(obj);
-  console.log(keys);
 
   const nameEle = createPart("p", "mealName");
   nameEle.classList.add("meal");
@@ -39,13 +38,18 @@ function workoutCard(obj) {
   headerEle.textContent = "Workout";
   cardEle.append(headerEle);
 
-  const keys = Object.keys(obj);
-  keys.forEach((key) => {
-    const noSpaceKey = key.replace(/\s/g, "");
-    const newEle = createPart("p", noSpaceKey);
-    newEle.classList.add("exercise");
-    newEle.textContent = obj[key] + " " + key;
-    cardEle.append(newEle);
+  const days = Object.keys(obj);
+  console.log(days);
+  days.forEach((day) => {
+    console.log(obj[day]);
+    const keys = Object.keys(obj[day]);
+    keys.forEach((key) => {
+      const noSpaceKey = key.replace(/\s/g, "");
+      const newEle = createPart("p", noSpaceKey);
+      newEle.classList.add("exercise");
+      newEle.textContent = obj[day][key] + " " + key;
+      cardEle.append(newEle);
+    });
   });
   cardEle.id = "workoutCard";
   return cardEle;

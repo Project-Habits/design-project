@@ -120,6 +120,12 @@ a {
 .blur {
   filter: blur(4px);
 }
+#loginButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
 /* Form Styling */
 .formCont { /*Form container*/
@@ -142,6 +148,10 @@ a {
   position: relative;
   align-items: center;
   gap: 10px;
+  background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
+}
+.gridRow p {
+  margin-left: 5px;
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
 }
 .gridRow input {
@@ -273,6 +283,7 @@ a {
   display: flex;
   height: 250px;
   width: 400px;
+  overflow: hidden;
   color: #C8D5BB;
   border: 2px solid #47585C;
   border-radius: 10px;
@@ -283,6 +294,7 @@ a {
   -moz-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  text-overflow: ellipsis;
 }
 .deleting {
   animation: silo-fade-away 0.3s;
@@ -294,7 +306,6 @@ a {
   display: block;
   width: 350px;
   text-align: center;
-  overflow: hidden;
   text-overflow: ellipsis;
 }
 /* Hidden at the bottom for display priority */
@@ -351,4 +362,27 @@ a {
   gap: 2px;
   justify-content: center;
   margin-bottom: 25px;
+}
+
+/* Here for button styling outside of classes */
+.styleBtn{
+  display: grid;
+  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  border-radius: 10px;
+  border: 2px solid #47585C;
+  width: 50px;
+  height: 50px;
+}
+.styleBtn:hover {
+  border: 2px solid #dbebcc;
+}
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
+}
+.buttonRow > * {
+  color: #C8D5BB;
 }
