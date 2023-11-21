@@ -196,16 +196,18 @@ def return_status(form: Form):
     randIndex = random.randrange(len(dinList))
     dinName = dinList[randIndex].mealname
     workoutDict = {}
+    mealDict = {}
+    for i in range(int(form.mealGoal)):
+        mealDict.update({i+1:{"Breakfast":{"Name":bfName, "Link": "eatthismuch.com"}, "Lunch":{"Name":lunchName, "Link":"eatthismuch.com"}, "Dinner":{"Name":dinName, "Link":"eatthismuch.com"}}})
+
+    print(mealDict)
     for i in range(int(form.workoutGoal)):
         randIndex = random.randrange(len(workoutList))
-        workoutDict.update({workoutList[randIndex].workoutname: ""})
+        workoutDict.update({ i+1 : {workoutList[randIndex].workoutname : str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))}})
         workoutList.pop(randIndex)
     exampleOutput = {
         'workout': workoutDict,
-        'meal': {
-            "Name": "Breakfast: " + bfName + "\nLunch: " + lunchName + "\nDinner: " + dinName,
-            "Link": ""
-        }
+        'meal': mealDict
     }
     return exampleOutput 
 
