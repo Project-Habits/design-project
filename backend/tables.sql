@@ -16,13 +16,15 @@ CREATE TABLE meals (
 	mealname VARCHAR(30),
 	calories INT,
 	m_type CHAR(1),
-	diet_type VARCHAR(10));
+	diet_type VARCHAR(10),
+	link VARCHAR(2083) DEFAULT NULL);
 	
 CREATE TABLE workouts (
 	wid INT,
 	workoutname VARCHAR(30),
 	calories_burned INT,
 	w_type CHAR(1),
+	section VARCHAR(15),
 	PRIMARY KEY(wid));
 
 CREATE TABLE user_meals (

@@ -18,6 +18,7 @@ class Meal(Base):
     calories = Column(Integer)
     m_type = Column(String)
     diet_type = Column(String)
+    link = Column(String)
 
 class Workout(Base):
     __tablename__ = 'workouts'
@@ -25,6 +26,7 @@ class Workout(Base):
     workoutname = Column(String)
     calories_burned = Column(Integer)
     w_type = Column(String)
+    section = Column(String)
 
 class User_Meal(Base):
     __tablename__ = 'user_meals'

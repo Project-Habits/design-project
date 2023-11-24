@@ -10,7 +10,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert, delete, and_, or_
+from sqlalchemy import select, insert, delete, and_, or_, Table
 
 import uvicorn
 from fastapi_sqlalchemy import DBSessionMiddleware, db
@@ -37,6 +37,7 @@ import random
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+DB_URL="postgresql://postgres:[db_pass]@[db_host]/projhabits"
 
 class Token(BaseModel):
     access_token: str
@@ -53,7 +54,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI()
 
-app.add_middleware(DBSessionMiddleware, db_url="postgresql://postgres:password@localhost:5432/projhabits")
+app.add_middleware(DBSessionMiddleware, db_url=DB_URL)
 
 class Form(BaseModel):
     workout: str
@@ -80,15 +81,8 @@ app.add_middleware(
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-
 def get_password_hash(password):
-    return pwd_context.hash(password)
-
-
-async def get_user(db: AsyncSession, username: str):
-    result = await db.session.query(ModelUser).filter(username=username)
-    print(result)
-    return result
+    return pwd_context.hash(password)    
 
 async def get_the_user(username: str):
     user = db.session.query(ModelUser).filter(ModelUser.username == username).all()
@@ -98,15 +92,21 @@ async def get_the_pass(password: str):
     u_pass = db.session.query(ModelUser).filter(ModelUser.u_password == password).all()
     return u_pass
 
-async def authenticate_user(db: AsyncSession, username: str, password: str):
-    user = await get_user(db, username)
-    print(user.username)
-    if not user:
-        return False
-    if not verify_password(password, user.password):
-        return False
-    return user
+async def get_meal(mealname: str):
+    return db.session.query(ModelMeal).filter(ModelMeal.mealname == mealname).all()
 
+async def get_workout(workoutname: str):
+    return db.session.query(ModelWorkout).filter(ModelWorkout.workoutname == workoutname).all()
+
+async def get_activity(activity_id: int):
+    return db.session.query(ModelActivity).filter(ModelActivity.activity_id == activity_id).all()
+
+async def get_user_meals(uid: int, username: str):
+    # Using SQL statements for execution since it's a multi-table query
+    uid = await get_the_user(username)[0].uid
+    meals_id = db.session.query(ModelActivity).filter(ModelActivity.uid == uid).with_entities(ModelActivity.mid)
+    print(meals_id)
+    return meals_id
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -191,14 +191,17 @@ def return_status(form: Form):
         workoutList = db.session.query(ModelWorkout).filter(ModelWorkout.w_type=='C').all()
     randIndex = random.randrange(len(bfList))
     bfName = bfList[randIndex].mealname
+    bfLink = bfList[randIndex].link
     randIndex = random.randrange(len(lunchList))
     lunchName = lunchList[randIndex].mealname
+    lunchLink = lunchList[randIndex].link
     randIndex = random.randrange(len(dinList))
     dinName = dinList[randIndex].mealname
+    dinLink = dinList[randIndex].link
     workoutDict = {}
     mealDict = {}
     for i in range(int(form.mealGoal)):
-        mealDict.update({i+1:{"Breakfast":{"Name":bfName, "Link": "eatthismuch.com"}, "Lunch":{"Name":lunchName, "Link":"eatthismuch.com"}, "Dinner":{"Name":dinName, "Link":"eatthismuch.com"}}})
+        mealDict.update({i+1:{"Breakfast":{"Name":bfName, "Link": bfLink}, "Lunch":{"Name":lunchName, "Link":lunchLink}, "Dinner":{"Name":dinName, "Link":dinLink}}})
 
     print(mealDict)
     for i in range(int(form.workoutGoal)):
@@ -211,6 +214,27 @@ def return_status(form: Form):
     }
     return exampleOutput 
 
+async def add_user(user: LoginInfo):
+    db_user = ModelUser(username=user.username, u_password=user.password)
+    existing_user = await get_the_user(user.username)
+    if (len(existing_user) == 0):
+        u_id = db.session.query(ModelUser).count() + 1
+        print(u_id, user.username, user.password)
+        db_user = ModelUser(uid=u_id, username=user.username, u_password=user.password)
+        db.session.add(db_user)
+        db.session.commit()
+        db.session.query()
+        return True
+    
+    return False
+
+@app.post('/register') # will be used for registering a new user
+def register(user: LoginInfo):
+    if asyncio.run(add_user(user)):
+        return login(user)
+    print("User already exists!")
+    return False
+
 @app.post("/login")
 def login(user: LoginInfo):
     # hashed_password = pwd_context.hash(user.password)
@@ -220,16 +244,10 @@ def login(user: LoginInfo):
     # Let me know how you guys plan on formatting this data so I can update it in the JS accordingly
     # Normally you would add another condition below like hashed_password = whatever you get from the database
     # I imagine that if we don't have an account, it would just return empty strings for each of the fields like below, and then everytime we make a change to the data, we would make a call to the database
-    # if (user.username == "test"):
-    #     # This is just an example of what the data would look like
-    #     example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'workoutGoal': 1, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}, 'mealGoal': 4, 'status': 1}
-    # else:
-    #     # TODO: create other cases where the user doesn't exist and one where the password is wrong. below would be for if the password is wrong, as shown by status = 0
-    #     example_data = {'username': '', 'password': '', 'hashedpassword': '', 'workout': '', 'meal': '', 'status': 0}
 
     valid_user = asyncio.run(get_the_user(user.username))
     valid_pass = asyncio.run(get_the_pass(user.password))
-    
+    # get_meals_by_user(SchemaUser(username=user.username, u_password=user.password))
     if (len(valid_user) == 1 and len(valid_pass) == 1):
         print('Login Successful')
         example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'workoutGoal': 1, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}, 'mealGoal': 4, 'status': 1}
@@ -245,15 +263,49 @@ async def root():
     return {"message": "hello world"}
 
 
-@app.post('/user/', response_model=SchemaUser)
-async def user(user: SchemaUser):
-    db_user = ModelUser(username=user.username, u_password=user.u_password)
-    db.session.add(db_user)
+async def add_activity(user: SchemaUser, meal: SchemaMeal, workout: SchemaWorkout):
+    "Update activity table based on what user does."
+    curr_user = db.session.query(ModelUser).filter_by(ModelUser.username == user.username)
+    curr_meal = db.session.query(ModelMeal).filter_by(ModelMeal.mealname == meal.mealname)
+    curr_workout = db.session.query(ModelWorkout).filter_by(ModelWorkout.workoutname == workout.workoutname)
+    db_activity = ModelActivity(uid=curr_user.uid, mid=curr_meal.mid, wid=curr_workout.wid, a_day=datetime.today().date())
+    db.session.add(db_activity)
     db.session.commit()
     db.session.query()
-    return db_user
+    return db_activity
 
-@app.get('/user/')
+async def add_meal(meal: SchemaMeal):
+    "Add meal to the catalog of meals in the database.\n\n This makes it so that any user can use these meals."
+    db_meal = ModelMeal(mealname=meal.mealname, calories=meal.calories, m_type=meal.m_type, link=meal.link)
+    db.session.add(db_meal)
+    db.session.commit()
+    db.session.query()
+    return db_meal
+
+async def add_workout(workout: SchemaWorkout):
+    "Add workout to the catalog of workouts in the database.\n\n This makes it so that any user can use these workouts."
+    db_workout = ModelWorkout(workoutname=workout.workoutname, calories_burned=workout.calories_burned, w_type=workout.w_type, section=workout.section)
+    db.session.add(db_workout)
+    db.session.commit()
+    db.session.query()
+    return db_workout
+
+async def get_mealname_catalog():
+    return db.session.query(ModelMeal).filter(ModelMeal.mealname).all()
+
+async def get_meals_by_user(user: SchemaUser):
+    user_id = db.session.query(ModelUser).filter(user.username).uid
+    print(user_id)
+    return db.session.query(ModelUM).filter(ModelUM.uid == user_id).all()
+
+async def get_workoutname_catalog():
+    return db.session.query(ModelWorkout).filter(ModelWorkout.workoutname).all()
+
+async def get_workouts_by_user(user: SchemaUser):
+    user_id = db.session.query(ModelUser).filter(user.username).uid
+    return db.session.query(ModelUW).filter(ModelUW.uid == user_id).all()
+
+@app.get('/user')
 async def user():
     user = db.session.query(ModelUser).all()
     return user

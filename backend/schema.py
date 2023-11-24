@@ -13,6 +13,7 @@ class Meal(BaseModel):
     calories: int
     m_type: str
     diet_type: str
+    link: str
 
     class Config:
         orm_mode = True
@@ -21,6 +22,7 @@ class Workout(BaseModel):
     workoutname: str
     calories_burned: int
     w_type: str
+    section: str
 
     class Config:
         orm_mode = True
