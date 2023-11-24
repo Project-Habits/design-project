@@ -218,13 +218,18 @@ async def add_user(user: LoginInfo):
     db_user = ModelUser(username=user.username, u_password=user.password)
     existing_user = await get_the_user(user.username)
     if (len(existing_user) == 0):
-        u_id = db.session.query(ModelUser).count() + 1
-        print(u_id, user.username, user.password)
-        db_user = ModelUser(uid=u_id, username=user.username, u_password=user.password)
-        db.session.add(db_user)
-        db.session.commit()
-        db.session.query()
-        return True
+        if (user.username != '' and user.password != ''):
+            u_id = db.session.query(ModelUser).count() + 1
+            print(u_id, user.username, user.password)
+            db_user = ModelUser(uid=u_id, username=user.username, u_password=user.password)
+            db.session.add(db_user)
+            db.session.commit()
+            db.session.query()
+            return True
+        elif user.username == '':
+            print("Must enter username")
+        else:
+            print("Must enter password")
     
     return False
 
@@ -232,7 +237,6 @@ async def add_user(user: LoginInfo):
 def register(user: LoginInfo):
     if asyncio.run(add_user(user)):
         return login(user)
-    print("User already exists!")
     return False
 
 @app.post("/login")
