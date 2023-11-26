@@ -5,7 +5,14 @@ let userData = {
   table: [],
 };
 // Communicate with backend for sending data from form
-async function sendData(workout, workGoal, mealDiet, mealProtein, mealCalorie, mealGoal) {
+async function sendData(
+  workout,
+  workGoal,
+  mealDiet,
+  mealProtein,
+  mealCalorie,
+  mealGoal
+) {
   fetch("http://127.0.0.1:8000", {
     method: "POST",
     headers: {
@@ -18,7 +25,7 @@ async function sendData(workout, workGoal, mealDiet, mealProtein, mealCalorie, m
       mealDiet: mealDiet,
       mealProtein: mealProtein,
       mealCalorie: mealCalorie,
-      mealGoal: mealGoal
+      mealGoal: mealGoal,
     }),
   })
     .then((response) => response.json())
@@ -31,7 +38,7 @@ async function sendData(workout, workGoal, mealDiet, mealProtein, mealCalorie, m
             mealDiet: mealDiet,
             mealProtein: mealProtein,
             mealCalorie: mealCalorie,
-            mealGoal: mealGoal
+            mealGoal: mealGoal,
           })
       );
       localStorage.setItem("workout", JSON.stringify(data.workout));
@@ -54,7 +61,14 @@ submitBut.onclick = (event) => {
   const mealCalorie = document.getElementById("calorieChoice").value;
 
   // Send data & fetch response to store in localStorage
-  sendData(workoutEntry, workoutGoal, mealDiet, mealProtein, mealCalorie, mealGoal);
+  sendData(
+    workoutEntry,
+    workoutGoal,
+    mealDiet,
+    mealProtein,
+    mealCalorie,
+    mealGoal
+  );
   localStorage.setItem("workoutGoal", workoutGoal);
   localStorage.setItem("mealGoal", mealGoal);
 
@@ -67,6 +81,8 @@ submitBut.onclick = (event) => {
     setTimeout(() => {
       mealEle.remove();
       workoutEle.remove();
+    }, 150);
+    setTimeout(() => {
       displayBut.click();
     }, 150);
   } else {

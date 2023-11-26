@@ -32,17 +32,15 @@ def return_status(form: Form):
     # Here is where we would run the algorithm to determine which workout and meal to return
     exampleWorkout = { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }
     exampleWorkout2 = { "Leg Lifts": "3x10", "Dumbbell Press": "3x10", "Squats": "3x8" }
-    exampleOutput = {
-    'workout': {1: exampleWorkout, 2: exampleWorkout2}, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/" }
-    }
+    exampleBfst = {"Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}
+    exampleLnch = {"Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}
+    exampleDin = {"Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}
+    exampleMeal = {"Breakfast": exampleBfst, "Lunch": exampleLnch, "Dinner": exampleDin}
+    exampleMeal2 = {"Breakfast": exampleBfst, "Lunch": exampleLnch, "Dinner": exampleDin}
+    exampleReturnMeal = {"meal": {1: exampleMeal, 2: exampleMeal2}}
+    exampleOutput = {'workout': {1: exampleWorkout, 2: exampleWorkout2}, 'meal': {1: exampleMeal, 2: exampleMeal2}} 
     return exampleOutput 
 
-exampleBfst = {"Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}
-exampleLnch = {"Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}
-exampleDin = {"Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}
-exampleMeal = {"Breakfast": exampleBfst, "Lunch": exampleLnch, "Dinner": exampleDin}
-exampleMeal2 = {"Breakfast": exampleBfst, "Lunch": exampleLnch, "Dinner": exampleDin}
-exampleReturnMeal = {"meal": {1: exampleMeal, 2: exampleMeal2}}
 @app.post("/login")
 def login(user: User):
     hashed_password = pwd_context.hash(user.password)

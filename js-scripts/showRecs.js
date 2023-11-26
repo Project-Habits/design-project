@@ -17,7 +17,32 @@ function mealCard(obj) {
   headerEle.textContent = "Meal";
   cardEle.append(headerEle);
 
-  const keys = Object.keys(obj);
+  const days = Object.keys(obj);
+  console.log(obj);
+  days.forEach((day) => {
+    const dayEle = createPart("div", "mealDay");
+    dayEle.id = "mealDay" + day;
+    const dayHeader = createPart("h2", "dayHeader");
+    dayHeader.textContent = "Day " + day;
+    dayEle.append(dayHeader);
+    const keys = Object.keys(obj[day]);
+    keys.forEach((key) => {
+      const noSpaceKey = key.replace(/\s/g, "");
+      const newEle = createPart("h3", noSpaceKey);
+      newEle.classList.add("meal");
+      newEle.textContent = key;
+      dayEle.append(newEle);
+      const meals = Object.keys(obj[day][key]);
+      meals.forEach((meal) => {
+        const noSpaceKey = key.replace(/\s/g, "");
+        const newEle = createPart("p", noSpaceKey);
+        newEle.classList.add("meal");
+        newEle.textContent = obj[day][key][meal];
+        dayEle.append(newEle);
+      });
+    });
+    cardEle.append(dayEle);
+  });
 
   const nameEle = createPart("p", "mealName");
   nameEle.classList.add("meal");
@@ -37,19 +62,22 @@ function workoutCard(obj) {
   const headerEle = createPart("h1", "cardWorkout");
   headerEle.textContent = "Workout";
   cardEle.append(headerEle);
-
   const days = Object.keys(obj);
-  console.log(days);
   days.forEach((day) => {
-    console.log(obj[day]);
+    const dayEle = createPart("div", "workDay");
+    const dayHeader = createPart("h2", "dayHeader");
+    dayHeader.textContent = "Day " + day;
+    dayEle.append(dayHeader);
+    dayEle.id = "workDay" + day;
     const keys = Object.keys(obj[day]);
     keys.forEach((key) => {
       const noSpaceKey = key.replace(/\s/g, "");
       const newEle = createPart("p", noSpaceKey);
       newEle.classList.add("exercise");
       newEle.textContent = obj[day][key] + " " + key;
-      cardEle.append(newEle);
+      dayEle.append(newEle);
     });
+    cardEle.append(dayEle);
   });
   cardEle.id = "workoutCard";
   return cardEle;
