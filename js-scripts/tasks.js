@@ -1,4 +1,4 @@
-// TODO: Functionality, add this to a display event listener
+// TODO: FIX STYLING FOR CARDS, need to make it so that we can scroll down to see all content
 // Get the workout card container element
 let workoutCardContainer = document.getElementById("workoutCard");
 let mealCardContainer = document.getElementById("mealCard");
