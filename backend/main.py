@@ -37,7 +37,7 @@ import random
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-DB_URL="postgresql://postgres:[db_pass]@[db_host]/projhabits"
+DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
 
 class Token(BaseModel):
     access_token: str
@@ -184,12 +184,21 @@ def return_status(form: Form):
             lunchList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='l')).all()
             dinList = db.session.query(ModelMeal).filter(and_(ModelMeal.calories>2200, ModelMeal.m_type=='d')).all()
 
-    #print(type(db.session.query(ModelWorkout).all()))
     if(form.workout == "Strength"):
         workoutList = db.session.query(ModelWorkout).filter(ModelWorkout.w_type=='S').all()
+        chestList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Chest').all()
+        shouldList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Shoulders').all()
+        triList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Triceps').all()
+        absList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Abs').all()
+        backList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Back').all()
+        biList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Biceps').all()
+        calfList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Calves').all()
+        quadList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Quads').all()
+        hamList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Hamstrings').all()
+        gluteList = db.session.query(ModelWorkout).filter(ModelWorkout.section=='Glutes').all()
     else:
         workoutList = db.session.query(ModelWorkout).filter(ModelWorkout.w_type=='C').all()
-    randIndex = random.randrange(len(bfList))
+    '''randIndex = random.randrange(len(bfList))
     bfName = bfList[randIndex].mealname
     bfLink = bfList[randIndex].link
     randIndex = random.randrange(len(lunchList))
@@ -197,17 +206,168 @@ def return_status(form: Form):
     lunchLink = lunchList[randIndex].link
     randIndex = random.randrange(len(dinList))
     dinName = dinList[randIndex].mealname
-    dinLink = dinList[randIndex].link
+    dinLink = dinList[randIndex].link'''
     workoutDict = {}
     mealDict = {}
     for i in range(int(form.mealGoal)):
+        if(len(bfList)>0):
+            randBfIndex = random.randrange(len(bfList))
+            bfName = bfList[randBfIndex].mealname
+            bfLink = bfList[randBfIndex].link
+            bfList.pop(randBfIndex)
+        else:
+            bfName = "BreakFast Placeholder"
+            bfLink = "www.example.com/breakfast"
+        if(len(bfList)>0):
+            randLunchIndex = random.randrange(len(lunchList))
+            lunchName = lunchList[randLunchIndex].mealname
+            lunchLink = lunchList[randLunchIndex].link
+            lunchList.pop(randLunchIndex)
+        else:
+            lunchName = "Lunch Placeholder"
+            lunchLink = "www.example.com/lunch"
+        if(len(dinList)>0):
+            randDinIndex = random.randrange(len(dinList))
+            dinName = dinList[randDinIndex].mealname
+            dinLink = dinList[randDinIndex].link
+            dinList.pop(randDinIndex)
+        else:
+            dinName = "Dinner Placeholder"
+            dinLink = "www.example.com/dinner"
         mealDict.update({i+1:{"Breakfast":{"Name":bfName, "Link": bfLink}, "Lunch":{"Name":lunchName, "Link":lunchLink}, "Dinner":{"Name":dinName, "Link":dinLink}}})
 
-    print(mealDict)
     for i in range(int(form.workoutGoal)):
         randIndex = random.randrange(len(workoutList))
-        workoutDict.update({ i+1 : {workoutList[randIndex].workoutname : str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))}})
+        workoutDict.update({ i+1 : {}})
         workoutList.pop(randIndex)
+    if(form.workout == "Strength"):
+        if(form.workoutGoal=='1'):
+            workoutDict[1].update({"Try Circuit Training!":""})
+        if(form.workoutGoal=='2'):
+            workoutDict[1].update({chestList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({triList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({backList[random.randrange(3)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({quadList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({hamList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({gluteList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+        if(form.workoutGoal=='3'):
+            workoutDict[1].update({chestList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({triList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({shouldList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({backList[random.randrange(3)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({absList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({quadList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({hamList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({gluteList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+        if(form.workoutGoal=='4'):
+            workoutDict[1].update({chestList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({triList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({shouldList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({backList[random.randrange(3)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({absList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({quadList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({hamList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({gluteList[random.randrange(2)].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({"Repeat workout from Day 1 or 2":"Alternate weekly:"})
+        if(form.workoutGoal=='5'):
+            randIndex = random.randrange(2)
+            workoutDict[1].update({chestList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({triList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({shouldList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            backRand = random.randrange(3)
+            workoutDict[2].update({backList[backRand].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({absList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({quadList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({hamList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({gluteList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            chestList.pop(randIndex)
+            triList.pop(randIndex)
+            shouldList.pop(randIndex)
+            backList.pop(backRand)
+            absList.pop(randIndex)
+
+            randIndex = random.randrange(1)
+            workoutDict[4].update({chestList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({triList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({shouldList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            backRand = random.randrange(2)
+            workoutDict[5].update({backList[backRand].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[5].update({absList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[5].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+        if(form.workoutGoal=='6'):
+            randIndex = random.randrange(2)
+            workoutDict[1].update({chestList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({triList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({shouldList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            backRand = random.randrange(3)
+            workoutDict[2].update({backList[backRand].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({absList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({quadList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({hamList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({gluteList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            chestList.pop(randIndex)
+            triList.pop(randIndex)
+            shouldList.pop(randIndex)
+            backList.pop(backRand)
+            absList.pop(randIndex)
+            quadList.pop(randIndex)
+            gluteList.pop(randIndex)
+
+            randIndex = random.randrange(1)
+            workoutDict[4].update({chestList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({triList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({shouldList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            backRand = random.randrange(2)
+            workoutDict[5].update({backList[backRand].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[5].update({absList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[5].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({quadList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({hamList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({gluteList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+        if(form.workoutGoal=='7'):
+            randIndex = random.randrange(2)
+            workoutDict[1].update({chestList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({triList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[1].update({shouldList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            backRand = random.randrange(3)
+            workoutDict[2].update({backList[backRand].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({absList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[2].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({quadList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({hamList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[3].update({gluteList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            chestList.pop(randIndex)
+            triList.pop(randIndex)
+            shouldList.pop(randIndex)
+            backList.pop(backRand)
+            absList.pop(randIndex)
+            quadList.pop(randIndex)
+            gluteList.pop(randIndex)
+
+            randIndex = random.randrange(1)
+            workoutDict[4].update({chestList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({triList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[4].update({shouldList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            backRand = random.randrange(2)
+            workoutDict[5].update({backList[backRand].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[5].update({absList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[5].update({biList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({calfList[0].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({quadList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({hamList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[6].update({gluteList[randIndex].workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            workoutDict[7].update({"Use today to work on weak areas!":""})
     exampleOutput = {
         'workout': workoutDict,
         'meal': mealDict

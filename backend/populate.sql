@@ -39,7 +39,25 @@ INSERT INTO workouts (wid, workoutname, calories_burned, w_type, section) VALUES
 (5, 'Cycling', 350, 'C', 'Cardio'),
 (6, 'Running', 200, 'C', 'Cardio'),
 (7, 'Walking', 50, 'C', 'Cardio'),
-(8, 'HIIT', 500, 'C', 'Cardio');
+(8, 'HIIT', 500, 'C', 'Cardio'),
+(9,'Dumbbell Flys', NULL, 'S', 'Chest'),
+(10,'Shoulder Press', NULL, 'S', 'Shoulders'),
+(11,'Pull Ups', NULL, 'S', 'Back'),
+(12,'Back Extension', NULL, 'S', 'Back'),
+(13,'Skull Crushers', NULL, 'S', 'Triceps'),
+(14,'Tricep Pushdown', NULL, 'S', 'Triceps'),
+(15,'Standing Leg Raises', NULL, 'S', 'Abs'),
+(16,'Dead Bug', NULL, 'S', 'Abs'),
+(17, 'Calf Raises', NULL, 'S', 'Calves'),
+(18, 'Leg Curls', NULL, 'S', 'Hamstrings'),
+(19, 'Goblet Squats', NULL, 'S', 'Quads'),
+(20, 'RDLs', NULL, 'S', 'Hamstrings'),
+(21, 'Leg Press', NULL, 'S', 'Quads'),
+(22, 'Hip Thrust', NULL, 'S', 'Glutes'),
+(23, 'Sumo Squats', NULL, 'S', 'Glutes'),
+(24, 'Jump Rope', NULL, 'C', 'Cardio'),
+(25, 'Burpees', NULL, 'C', 'Cardio'),
+(26, 'Mountain Climbers', NULL, 'C', 'Cardio');
 
 -- Insert data into user_meals table
 INSERT INTO user_meals (uid, mid) VALUES
