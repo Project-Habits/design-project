@@ -13,7 +13,7 @@ CREATE table users (
 	
 CREATE TABLE meals (
 	mid INT PRIMARY KEY,
-	mealname VARCHAR(30),
+	mealname VARCHAR(50),
 	calories INT,
 	m_type CHAR(1),
 	diet_type VARCHAR(10),
@@ -22,7 +22,7 @@ CREATE TABLE meals (
 CREATE TABLE workouts (
 	wid INT,
 	workoutname VARCHAR(30),
-	calories_burned INT,
+	calories_burned INT DEFAULT NULL,
 	w_type CHAR(1),
 	section VARCHAR(15),
 	PRIMARY KEY(wid));
@@ -30,11 +30,15 @@ CREATE TABLE workouts (
 CREATE TABLE user_meals (
 	uid INT REFERENCES users(uid),
 	mid INT REFERENCES meals(mid),
+	complete INT DEFAULT 0,
+	a_day DATE,
 	PRIMARY KEY (uid, mid));
 	
 CREATE TABLE user_workouts (
 	uid INT REFERENCES users(uid),
 	wid INT REFERENCES workouts(wid),
+	complete INT DEFAULT 0,
+	a_day DATE,
 	PRIMARY KEY (uid, wid));
 
 CREATE TABLE activities(
