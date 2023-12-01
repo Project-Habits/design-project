@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap'); * {
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap'); 
+* {
   appearance: none; 
-  background-image: linear-gradient(#C8D5BB, #47585C);
   background-color: transparent;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -9,7 +9,9 @@
 a {
   text-decoration: none;
 }
-
+body {
+  background-color: #ecf0f1;
+}
 @-webkit-keyframes silo-fade {
     0% {
         opacity: 0;
@@ -87,7 +89,7 @@ a {
 }
 
 .header {
-  color: #47585C;
+  color: #34495e;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,14 +109,13 @@ a {
   border: 2px solid #47585C;
   width: 40px;
   height: 40px;
-  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  background-color: rgba(127, 140, 141,1.0);
 }
 .createTask:hover {
-  border: 2px solid #dbebcc;
+  border: 2px solid rgba(46, 204, 113,1.0);
 }
 .createTask h2 {
-  color: #C8D5BB;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+  color: rgba(236, 240, 241,1.0);
 }
 
 .blur {
@@ -135,8 +136,8 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  border: 1px solid #C8D5BB;
-  background-image: linear-gradient(rgba(71, 88, 92, .75), rgba(71, 88, 92, .75));
+  border: 2px solid rgba(44, 62, 80,1.0);
+  background-image: linear-gradient(rgba(255, 255, 255, .85), rgba(255, 255, 255, .85));
 }
 .cardForm { /*The form itself*/
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
@@ -156,7 +157,7 @@ a {
 }
 .gridRow input {
   padding: 10px;
-  border: 2px solid #C8D5BB;
+  border: 2px solid #02D8E9;
   border-radius: 10px;
   height: 45px;
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
@@ -164,20 +165,19 @@ a {
 }
 .gridRow select {
   padding: 10px;
-  border: 2px solid #C8D5BB;
+  border: 2px solid rgba(52, 152, 219,1.0);
   border-radius: 10px;
   height: 65px;
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
   width: 286.683px;
 }
 .gridRow input:focus {
-  outline: 1px solid #C8D5BB;
+  outline: 1px solid rgba(52, 152, 219, 1.0);
 }
 .gridRow select:focus {
-  outline: 1px solid #C8D5BB;
+  outline: 1px solid rgba(52, 152, 219, 1.0);
 }
 .gridRow label {
-  background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
   padding: 5px 0;
   font-size: 10px;
   position: absolute;
@@ -200,7 +200,7 @@ a {
   padding: 10px;
   border-radius: 10px;
   border: 2px solid #47585C;
-  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  background-color: rgba(46, 204, 113,0.65);
 }
 .submitBut:focus{
   outline: 2px solid #C8D5BB;
@@ -220,20 +220,19 @@ a {
 .openbtn{
   position: fixed;
   display: grid;
-  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  background-color: rgba(127, 140, 141,1.0);
   border-radius: 10px;
   border: 2px solid #47585C;
   width: 50px;
   height: 50px;
 }
 .openbtn:hover {
-  border: 2px solid #dbebcc;
+  border: 2px solid rgba(26, 188, 156,1.0);
 }
 .openbtn h1 {
   margin: 0;
   padding-bottom: 10px;
-  color: #C8D5BB;
-  background-image: linear-gradient(rgba(71, 88, 92, 0), rgba(71, 88, 92, 0));
+  color: white;
 }
 .sidebar {
   height: 100%;
@@ -243,7 +242,7 @@ a {
   top: 0;
   left: 0;
   overflow-x: hidden;
-  background-image: linear-gradient(rgba(71, 88, 92, 1), rgba(71, 88, 92, 1));
+  background-color: rgba(52, 73, 94,1.0);
   padding-top: 60px;
   transition: 0.5s;
   display: flex;
@@ -256,8 +255,7 @@ a {
 }
 .sidebar > * > * {
   white-space: nowrap;
-  background-image: linear-gradient(rgba(71, 88, 92, 1), rgba(71, 88, 92, 1));
-  color: #C8D5BB;
+  color: rgba(189, 195, 199,1.0);
   display: block;
   padding: 10px;
   font-size: 15px;
@@ -266,9 +264,6 @@ a {
 .sidebar > * > *:hover {
   color: white;
   transition: 0.3s;
-}
-.sideLink > * {
-  background-image: linear-gradient(rgba(71, 88, 92, 1), rgba(71, 88, 92, 1));
 }
 
 /* Cards */
@@ -279,12 +274,12 @@ a {
   flex-direction: row;
 }
 .cardCont {
-  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  background-color: rgba(127, 140, 141,1.0);
   display: flex;
   height: 250px;
   width: 400px;
   overflow: hidden;
-  color: #C8D5BB;
+  color: #f0ebec;
   border: 2px solid #47585C;
   border-radius: 10px;
   align-items: center;
@@ -295,6 +290,12 @@ a {
   -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   text-overflow: ellipsis;
+}
+#workoutCard {
+  background-color: #27ae60;
+}
+#mealCard {
+  background-color: #3498db
 }
 .deleting {
   animation: silo-fade-away 0.3s;
