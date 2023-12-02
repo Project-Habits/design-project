@@ -33,6 +33,15 @@ function mealCard(obj) {
       dayEle.append(newEle);
       const meals = Object.keys(obj[day][key]);
       meals.forEach((meal) => {
+        if (meal == "Link") {
+          const noSpaceKey = key.replace(/\s/g, "");
+          const newEle = createPart("a", noSpaceKey);
+          newEle.classList.add("meal");
+          newEle.textContent = obj[day][key][meal];
+          newEle.href = obj[day][key][meal];
+          dayEle.append(newEle);
+          return;
+        }
         const noSpaceKey = key.replace(/\s/g, "");
         const newEle = createPart("p", noSpaceKey);
         newEle.classList.add("meal");

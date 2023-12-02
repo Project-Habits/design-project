@@ -300,6 +300,10 @@ body {
   -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
 }
+a.meal {
+  color: white;
+  text-decoration: underline;
+}
 #workoutCard {
   background-color: #3498db;
   height: fit-content;
