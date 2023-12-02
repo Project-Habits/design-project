@@ -18,7 +18,6 @@ function mealCard(obj) {
   cardEle.append(headerEle);
 
   const days = Object.keys(obj);
-  console.log(obj);
   days.forEach((day) => {
     const dayEle = createPart("div", "mealDay");
     dayEle.id = "mealDay" + day;

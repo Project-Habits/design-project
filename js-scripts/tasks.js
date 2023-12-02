@@ -1,7 +1,6 @@
 // TODO: Fix workoutCardContainer not being reassigned
 // Get the workout card container element
 let workoutCardContainer = document.getElementById("workoutCard");
-console.log(workoutCardContainer);
 let mealCardContainer = document.getElementById("mealCard");
 const submitBut = document.querySelector(".submitBut");
 const displayBut = document.getElementById("showRecs");

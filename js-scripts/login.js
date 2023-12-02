@@ -57,7 +57,6 @@ function createLogin() {
 
 // Communicate with backend for login
 async function sendLogin(username, password) {
-  console.log("send");
   fetch("http://127.0.0.1:8000/login", {
     method: "POST",
     headers: {
@@ -99,7 +98,6 @@ async function sendLogin(username, password) {
     });
 }
 async function sendRegister(username, password) {
-  console.log("send");
   fetch("http://127.0.0.1:8000/register", {
     method: "POST",
     headers: {
