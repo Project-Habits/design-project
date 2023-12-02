@@ -74,12 +74,13 @@ async function sendLogin(username, password) {
       );
       if (data.status == 1) {
         // Handle login success
-        console.log("Login successful");
         loginForm.classList.toggle("hidden");
         loginHeader.classList.toggle("hidden");
         main.classList.toggle("hidden");
+        localStorage.clear();
+        localStorage.setItem("loggedIn", true);
+        console.log("Login successful");
         if (data.meal) {
-          localStorage.clear();
           localStorage.setItem("username", JSON.stringify(data.username));
           localStorage.setItem("meal", JSON.stringify(data.meal));
           localStorage.setItem("workout", JSON.stringify(data.workout));
@@ -88,7 +89,6 @@ async function sendLogin(username, password) {
           localStorage.setItem("mealGoal", JSON.stringify(data.mealGoal));
           displayBut.click();
         } else {
-          localStorage.clear();
           // Don't store anything , account data doesn't exist yet.
         }
       } else if (data.status == 0) {
@@ -146,4 +146,18 @@ loginRegister.onclick = (event) => {
   const username = loginForm.querySelector("input[id='Username']").value;
   const password = loginForm.querySelector("input[id='Password']").value;
   sendRegister(username, password);
+};
+if (localStorage.getItem("loggedIn") == "true") {
+  loginForm.classList.toggle("hidden");
+  loginHeader.classList.toggle("hidden");
+  main.classList.toggle("hidden");
+  displayBut.click();
+}
+
+// Logout functionality
+const logoutBut = document.getElementById("logoutBut");
+logoutBut.onclick = (event) => {
+  event.preventDefault;
+  localStorage.clear();
+  location.reload();
 };
