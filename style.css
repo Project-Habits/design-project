@@ -89,7 +89,7 @@ body {
 }
 
 .header {
-  color: #34495e;
+  color: rgb(78, 86, 87);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -203,7 +203,7 @@ body {
   background-color: rgba(46, 204, 113,0.65);
 }
 .submitBut:focus{
-  outline: 2px solid #C8D5BB;
+  outline: 2px solid white;
 }
 .submitCont {
   display: flex;
@@ -291,11 +291,23 @@ body {
   transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   text-overflow: ellipsis;
 }
-#workoutCard {
-  background-color: #27ae60;
-}
 #mealCard {
-  background-color: #3498db
+  background-color: #27ae60;
+  height: fit-content;
+  animation: silo-fade 0.5s;
+  -webkit-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -moz-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+#workoutCard {
+  background-color: #3498db;
+  height: fit-content;
+  animation: silo-fade 0.5s;
+  -webkit-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -moz-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  -o-transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
 }
 .deleting {
   animation: silo-fade-away 0.3s;
@@ -367,8 +379,9 @@ body {
 
 /* Here for button styling outside of classes */
 .styleBtn{
+  color: #f0ebec;
   display: grid;
-  background-image: linear-gradient(rgba(71, 88, 92, .65), rgba(71, 88, 92, .65));
+  background-color: rgba(127, 140, 141,1.0);
   border-radius: 10px;
   border: 2px solid #47585C;
   width: 50px;
@@ -385,5 +398,5 @@ body {
   background-image: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, 0));
 }
 .buttonRow > * {
-  color: #C8D5BB;
+  color: #f0ebec;
 }

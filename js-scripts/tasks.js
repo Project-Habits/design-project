@@ -1,6 +1,7 @@
-// TODO: FIX STYLING FOR CARDS, need to make it so that we can scroll down to see all content
+// TODO: Fix workoutCardContainer not being reassigned
 // Get the workout card container element
 let workoutCardContainer = document.getElementById("workoutCard");
+console.log(workoutCardContainer);
 let mealCardContainer = document.getElementById("mealCard");
 const submitBut = document.querySelector(".submitBut");
 const displayBut = document.getElementById("showRecs");
@@ -13,9 +14,11 @@ const mealGoal = localStorage.getItem("mealGoal");
 const mealNumberOfDays = parseInt(mealGoal);
 const mealButtonRow = document.createElement("div");
 workButtonRow.classList.add("buttonRow");
-workoutCardContainer.children[0].after(workButtonRow);
 mealButtonRow.classList.add("buttonRow");
-mealCardContainer.children[0].after(mealButtonRow);
+if (workoutCardContainer != null) {
+  workoutCardContainer.children[0].after(workButtonRow);
+  mealCardContainer.children[0].after(mealButtonRow);
+}
 
 function reassign() {
   workoutCardContainer = document.getElementById("workoutCard");
@@ -151,4 +154,6 @@ displayBut.addEventListener("click", () => {
   reassign();
   updateNumButtons();
 });
-createButtons();
+if (workoutCardContainer != null) {
+  createButtons();
+}
