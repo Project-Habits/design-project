@@ -37,7 +37,8 @@ import random
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
+# DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
+DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
 
 class Token(BaseModel):
     access_token: str
@@ -57,6 +58,7 @@ app = FastAPI()
 app.add_middleware(DBSessionMiddleware, db_url=DB_URL)
 
 class Form(BaseModel):
+    username: str
     workout: str
     workoutGoal: str
     mealDiet: str
@@ -136,6 +138,9 @@ class LoginInfo(BaseModel):
 
 @app.post("/")
 def return_status(form: Form):
+    # gets user info
+    form.username = form.username.replace('"', '')
+    db_user = asyncio.run(get_the_user(form.username))[0]
     # Here is where we would run the algorithm to determine which workout and meal to return
     if(form.mealCalorie == "<1800"):
         bfName = db.session.query(ModelMeal).filter(ModelMeal.calories<1800).first().mealname
@@ -372,6 +377,10 @@ def return_status(form: Form):
         'workout': workoutDict,
         'meal': mealDict
     }
+    meals = asyncio.run(get_meals_by_user(db_user.uid))
+    print(meals)
+    for i in range(len(meals)):
+        asyncio.run(update_single_meal_by_user(db_user.uid, meals[i], 0, i))
     return exampleOutput 
 
 async def add_user(user: LoginInfo):
@@ -457,17 +466,59 @@ async def add_workout(workout: SchemaWorkout):
 async def get_mealname_catalog():
     return db.session.query(ModelMeal).filter(ModelMeal.mealname).all()
 
-async def get_meals_by_user(user: SchemaUser):
-    user_id = db.session.query(ModelUser).filter(user.username).uid
-    print(user_id)
-    return db.session.query(ModelUM).filter(ModelUM.uid == user_id).all()
+async def get_meals_by_user(uid: int):
+    # Using SQL statements for execution since it's a multi-table query
+    meals = db.session.query(ModelUM).filter(ModelUM.uid == uid).all()
+    meal_ids = [meal.mid for meal in meals]
+    return meal_ids
+
+async def update_single_meal_by_user(uid: int, mid: int, complete: int, day: int):
+    '''
+    Updates the 'user_meals' table based on the parameters
+    \n
+    params:
+    -- `uid`: int for logged-in user\n
+    - `mid`: int for specific meal
+    - `complete`: int that should be `0` for `False` or `1` for `True`
+    - `day`: int for the specific day this meal is set for
+    '''
+    existing_meals = await get_meals_by_user(uid)
+    if mid in existing_meals:
+        db.session.query(ModelUM).filter(ModelUM.mid == mid, ModelUM.uid == uid).update({ModelUM.complete: complete, ModelUM.a_day: day}, synchronize_session='auto')
+    else:
+        db_UM = ModelUM(uid=uid, mid=mid, complete=complete, a_day=day)
+        db.session.add(db_UM)
+    db.session.commit()
+    db.session.query()
+
+async def get_workouts_by_user(uid: int):
+    # Using SQL statements for execution since it's a multi-table query
+    workouts = db.session.query(ModelUW).filter(ModelUW.uid == uid).all()
+    workout_ids = [workout.wid for workout in workouts]
+    return workout_ids
+
+async def update_single_workout_by_user(uid: int, wid: int, complete: int, day: int):
+    '''
+    Updates the 'user_workouts' table based on the parameters
+    \n
+    params:
+    - `uid`: int for logged-in user
+    - `wid`: int for specific workout
+    - `complete`: int that should be `0` for `False` or `1` for `True`
+    - `day`: int for the specific day this workout is set for
+    '''
+    existing_workouts = await get_workouts_by_user(uid)
+    if wid in existing_workouts:
+        db.session.query(ModelUW).filter(ModelUW.wid == wid, ModelUW.uid == uid).update({ModelUW.complete: complete, ModelUW.a_day: day}, synchronize_session='auto')
+    else:
+        db_UW = ModelUW(uid=uid, wid=wid, complete=complete, a_day=day)
+        db.session.add(db_UW)
+    db.session.commit()
+    db.session.query()
 
 async def get_workoutname_catalog():
     return db.session.query(ModelWorkout).filter(ModelWorkout.workoutname).all()
 
-async def get_workouts_by_user(user: SchemaUser):
-    user_id = db.session.query(ModelUser).filter(user.username).uid
-    return db.session.query(ModelUW).filter(ModelUW.uid == user_id).all()
 
 @app.get('/user')
 async def user():
