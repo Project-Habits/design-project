@@ -66,8 +66,9 @@ async function sendProgress(username, type, day, checked) {
         "Input: " +
           JSON.stringify({
             username: username,
-            workoutProgress: workout,
-            mealProgress: meal,
+            type: type,
+            day: day,
+            checked: checked,
           })
       );
       console.log("Output (from Python server): " + JSON.stringify(data));
