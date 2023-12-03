@@ -87,6 +87,9 @@ body {
   align-items: center;
   transition: 0.5s;
 }
+.faq p {
+  width: 50vw;
+}
 
 .header {
   color: rgb(78, 86, 87);
