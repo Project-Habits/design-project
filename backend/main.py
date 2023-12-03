@@ -377,10 +377,6 @@ def return_status(form: Form):
         'workout': workoutDict,
         'meal': mealDict
     }
-    meals = asyncio.run(get_meals_by_user(db_user.uid))
-    print(meals)
-    for i in range(len(meals)):
-        asyncio.run(update_single_meal_by_user(db_user.uid, meals[i], 0, i))
     return exampleOutput 
 
 async def add_user(user: LoginInfo):
