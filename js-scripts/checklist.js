@@ -45,6 +45,35 @@ function checkButton(button) {
   }
 }
 
+async function sendProgress(username, type, day, checked) {
+  fetch("http://127.0.0.1:8000/progress", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    // Send username, workout, and meal data to backend
+    body: JSON.stringify({
+      username: username,
+      type: type,
+      day: day,
+      checked: checked,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(
+        "Input: " +
+          JSON.stringify({
+            username: username,
+            workoutProgress: workout,
+            mealProgress: meal,
+          })
+      );
+      console.log("Output (from Python server): " + JSON.stringify(data));
+    });
+}
+
 // Use displayBut as an event trigger
 displayBut.addEventListener("click", () => {
   workGoal = localStorage.workoutGoal;
@@ -105,6 +134,7 @@ displayBut.addEventListener("click", () => {
     // Add an event listener for each individual check box
     // If a box is checked, update the chart
     for (let i = 0; i < workBtns.length; i++) {
+      let username = localStorage.getItem("username");
       let replaceEle = workBtns[i].cloneNode(true);
       workBtns[i].parentNode.replaceChild(replaceEle, workBtns[i]);
       workBtns[i].addEventListener("click", () => {
@@ -114,6 +144,7 @@ displayBut.addEventListener("click", () => {
             workCurrent,
             workGoal - workCurrent,
           ];
+          sendProgress(username, "workout", i + 1, true);
           workChartObj.update();
         } else {
           workCurrent -= 1;
@@ -121,6 +152,7 @@ displayBut.addEventListener("click", () => {
             workCurrent,
             workGoal - workCurrent,
           ];
+          sendProgress(username, "workout", i + 1, false);
           workChartObj.update();
         }
       });
@@ -182,12 +214,14 @@ displayBut.addEventListener("click", () => {
       let replaceEle = mealBtns[i].cloneNode(true);
       mealBtns[i].parentNode.replaceChild(replaceEle, mealBtns[i]);
       mealBtns[i].addEventListener("click", () => {
+        let username = localStorage.getItem("username");
         if (checkButton(mealBtns[i], mealCurrent) == 1) {
           mealCurrent += 1;
           mealChartObj.config._config.data.datasets[1].data = [
             mealCurrent,
             mealGoal - mealCurrent,
           ];
+          sendProgress(username, "meal", i + 1, true);
           mealChartObj.update();
         } else {
           mealCurrent -= 1;
@@ -195,6 +229,7 @@ displayBut.addEventListener("click", () => {
             mealCurrent,
             mealGoal - mealCurrent,
           ];
+          sendProgress(username, "meal", i + 1, false);
           mealChartObj.update();
         }
       });
