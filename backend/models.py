@@ -32,6 +32,8 @@ class User_Meal(Base):
     __tablename__ = 'user_meals'
     uid = Column(Integer, ForeignKey('users.uid'))
     mid = Column(Integer, ForeignKey('meals.mid'))
+    complete = Column(Integer)
+    a_day = Column(Integer)
     __table_args__ = (
         PrimaryKeyConstraint(uid, mid),
         {},
@@ -41,6 +43,8 @@ class User_Workout(Base):
     __tablename__ = 'user_workouts'
     uid = Column(Integer, ForeignKey('users.uid'))
     wid = Column(Integer, ForeignKey('workouts.wid'))
+    complete = Column(Integer)
+    a_day = Column(Integer)
     __table_args__ = (
         PrimaryKeyConstraint(uid, wid),
         {},

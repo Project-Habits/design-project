@@ -31,14 +31,14 @@ CREATE TABLE user_meals (
 	uid INT REFERENCES users(uid),
 	mid INT REFERENCES meals(mid),
 	complete INT DEFAULT 0,
-	a_day DATE,
+	a_day INT,
 	PRIMARY KEY (uid, mid));
 	
 CREATE TABLE user_workouts (
 	uid INT REFERENCES users(uid),
 	wid INT REFERENCES workouts(wid),
 	complete INT DEFAULT 0,
-	a_day DATE,
+	a_day INT,
 	PRIMARY KEY (uid, wid));
 
 CREATE TABLE activities(
