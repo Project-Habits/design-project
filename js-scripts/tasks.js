@@ -33,6 +33,7 @@ function createButtons() {
   const workAllButton = document.createElement("button");
   workAllButton.classList.add("styleBtn");
   workAllButton.textContent = "All";
+  workAllButton.id = "allBtn";
   workAllButton.onclick = () => {
     // Unhide all elements
     const days = document.getElementsByClassName("workDay");
@@ -153,6 +154,14 @@ displayBut.addEventListener("click", () => {
   reassign();
   updateNumButtons();
 });
+const loginBtn = document.getElementById("loginSubmit");
+loginBtn.addEventListener("click", () => {
+  if (workoutCardContainer == null) {
+    createButtons();
+  }
+});
 if (workoutCardContainer != null) {
+  console.log("called");
   createButtons();
+  updateNumButtons();
 }
