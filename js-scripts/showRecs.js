@@ -42,11 +42,13 @@ function mealCard(obj) {
           dayEle.append(newEle);
           return;
         }
-        const noSpaceKey = key.replace(/\s/g, "");
-        const newEle = createPart("p", noSpaceKey);
-        newEle.classList.add("meal");
-        newEle.textContent = obj[day][key][meal];
-        dayEle.append(newEle);
+        else if (meal == "Name") {
+          const noSpaceKey = key.replace(/\s/g, "");
+          const newEle = createPart("p", noSpaceKey);
+          newEle.classList.add("meal");
+          newEle.textContent = obj[day][key][meal];
+          dayEle.append(newEle);
+        }
       });
     });
     cardEle.append(dayEle);
