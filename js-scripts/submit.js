@@ -6,6 +6,7 @@ let userData = {
 };
 // Communicate with backend for sending data from form
 async function sendData(
+  username,
   workout,
   workGoal,
   mealDiet,
@@ -20,6 +21,7 @@ async function sendData(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      username: username,
       workout: workout,
       workoutGoal: workGoal,
       mealDiet: mealDiet,
@@ -33,6 +35,7 @@ async function sendData(
       console.log(
         "Input: " +
           JSON.stringify({
+            username: username,
             workout: workout,
             workoutGoal: workGoal,
             mealDiet: mealDiet,
@@ -53,6 +56,7 @@ submitBut.onclick = (event) => {
   formEle.classList.toggle("hidden");
   document.querySelector(".main").classList.toggle("blur");
   // Read the form values into variables
+  const username = localStorage.getItem("username");
   const workoutEntry = document.getElementById("workoutChoice").value;
   const mealDiet = document.getElementById("dietChoice").value;
   const workoutGoal = document.getElementById("workoutGoal").value;
@@ -62,6 +66,7 @@ submitBut.onclick = (event) => {
 
   // Send data & fetch response to store in localStorage
   sendData(
+    username,
     workoutEntry,
     workoutGoal,
     mealDiet,
