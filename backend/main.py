@@ -563,6 +563,16 @@ async def update_single_workout_by_user(uid: int, wid: int, complete: int, day: 
     db.session.commit()
     db.session.query()
 
+async def delete_user_meals(uid: int):
+    db.session.query(ModelUM).filter(ModelUM.uid == uid).delete(synchronize_session='auto')
+    db.session.commit()
+    db.session.query()
+
+async def delete_user_workouts(uid: int):
+    db.session.query(ModelUW).filter(ModelUW.uid == uid).delete(synchronize_session='auto')
+    db.session.commit()
+    db.session.query()
+
 async def get_workoutname_catalog():
     return db.session.query(ModelWorkout).filter(ModelWorkout.workoutname).all()
 
