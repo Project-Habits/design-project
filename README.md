@@ -25,7 +25,7 @@ As of right now, there is currently no remote database host, so the database mus
 2. Using pgAdmin4
     - Once installed, open pgAdmin4 (*you may have to search for it using the Windows key or cmd+space to find the application*)
     - Once opened, you should see *PostgreSQL 15* as an available server under the server list on the left navbar.
-        - It is worth nothing that you may be asked to input a password. This password will be the **database password** and it is **imperative** that you don't forget it. 
+        - It is worth noting that you may be asked to input a password. This password will be the **database password** and it is **imperative** that you don't forget it. 
     - Expand the *PostgreSQL 15* list bu clicking on the arrow and right click on Databases and create a new database
         - You **must** name this database **projhabits**
     - Once that is done, right click on *projhabits* on the left navbar and click on *Query Tool*. This tool will allow you to manually write SQL statements that will affect the database.
