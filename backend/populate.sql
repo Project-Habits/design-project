@@ -121,6 +121,7 @@ INSERT INTO meals (mid, mealname, calories, m_type, diet_type, link) VALUES
 
 -- Insert data into workouts table
 INSERT INTO workouts (wid, workoutname, calories_burned, w_type, section) VALUES
+(0, 'Placeholder Workout', NULL, NULL, NULL),
 (1, 'Bench Press', 300, 'S', 'Chest'),
 (2, 'Bicep Curls', 400, 'S', 'Biceps'),
 (3, 'Rowing', 150, 'S', 'Back'),

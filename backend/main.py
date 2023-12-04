@@ -425,6 +425,22 @@ def register(user: LoginInfo):
 @app.post("/progress") #used to update checklist
 def update_checklist(update: ChecklistUpdate):
     print(update)
+    update.username = update.username.replace('"', '')
+    db_user = asyncio.run(get_the_user(update.username))[0]
+    uid = db_user.uid
+    if(update.checked):
+        complete = 1
+    else:
+        complete = 0
+    #print(asyncio.run(get_day_workouts_by_user(uid, update.day)))
+    if(update.type=='workout'):
+        exercises = asyncio.run(get_day_workouts_by_user(uid, update.day))
+        for exercise in exercises:
+            asyncio.run(update_single_workout_by_user(uid, exercise, complete, update.day))
+    else:
+        meals = asyncio.run(get_day_meals_by_user(uid, update.day))
+        for meal in meals:
+            asyncio.run(update_single_meal_by_user(uid, meal, complete, update.day))
     return {}
 
 @app.post("/login")
@@ -488,6 +504,12 @@ async def get_mealname_catalog():
 async def get_meals_by_user(uid: int):
     # Using SQL statements for execution since it's a multi-table query
     meals = db.session.query(ModelUM).filter(ModelUM.uid == uid).all()
+    meal_ids = [meal.mid for meal in meals]
+    return meal_ids
+
+async def get_day_meals_by_user(uid: int, day: int):
+    # Using SQL statements for execution since it's a multi-table query
+    meals = db.session.query(ModelUM).filter(and_(ModelUM.uid == uid, ModelUM.a_day==day)).all()
     meal_ids = [meal.mid for meal in meals]
     return meal_ids
 
