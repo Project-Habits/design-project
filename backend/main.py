@@ -37,8 +37,8 @@ import random
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-# DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
-DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
+DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
+#DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
 
 class Token(BaseModel):
     access_token: str
@@ -65,6 +65,12 @@ class Form(BaseModel):
     mealProtein: str
     mealCalorie: str
     mealGoal: str
+
+class ChecklistUpdate(BaseModel):
+    username: str
+    type: str
+    day: int
+    checked: bool
 
 app.add_middleware(
     CORSMiddleware,
@@ -141,8 +147,8 @@ def return_status(form: Form):
     # gets user info
     form.username = form.username.replace('"', '')
     db_user = asyncio.run(get_the_user(form.username))[0]
+    uid = db_user.uid
     # Here is where we would run the algorithm to determine which workout and meal to return
-    print(form.mealDiet)
 
     if(form.mealDiet == "Vegan"):
         if(form.mealCalorie == "<1800"):
@@ -205,14 +211,17 @@ def return_status(form: Form):
             randBfIndex = random.randrange(len(bfList))
             bfName = bfList[randBfIndex].mealname
             bfLink = bfList[randBfIndex].link
+            bID = bfList[randBfIndex].mid
             bfList.pop(randBfIndex)
         else:
             bfName = "BreakFast Placeholder"
             bfLink = "www.example.com/breakfast"
+            bID = "-1"
         if(len(bfList)>0):
             randLunchIndex = random.randrange(len(lunchList))
             lunchName = lunchList[randLunchIndex].mealname
             lunchLink = lunchList[randLunchIndex].link
+            lID = lunchList[randLunchIndex].mid
             lunchList.pop(randLunchIndex)
         else:
             lunchName = "Lunch Placeholder"
@@ -221,11 +230,16 @@ def return_status(form: Form):
             randDinIndex = random.randrange(len(dinList))
             dinName = dinList[randDinIndex].mealname
             dinLink = dinList[randDinIndex].link
+            dID = dinList[randDinIndex].mid
             dinList.pop(randDinIndex)
         else:
             dinName = "Dinner Placeholder"
             dinLink = "www.example.com/dinner"
-        mealDict.update({i+1:{"Breakfast":{"Name":bfName, "Link": bfLink}, "Lunch":{"Name":lunchName, "Link":lunchLink}, "Dinner":{"Name":dinName, "Link":dinLink}}})
+        mealDict.update({i+1:{
+            "Breakfast":{"Name":bfName, "Link": bfLink, "ID":bID}, 
+            "Lunch":{"Name":lunchName, "Link":lunchLink, "ID":lID}, 
+            "Dinner":{"Name":dinName, "Link":dinLink, "ID":dID}
+            }})
 
     for i in range(int(form.workoutGoal)):
         workoutDict.update({ i+1 : {}})
@@ -368,6 +382,19 @@ def return_status(form: Form):
         'workout': workoutDict,
         'meal': mealDict
     }
+    for meal in mealDict:
+        for mealOfDay in mealDict[meal]:
+            #print(uid, mealDict[meal][mealOfDay]['ID'], 0, meal)
+            asyncio.run(update_single_meal_by_user(uid, mealDict[meal][mealOfDay]['ID'], 0, meal))
+
+    for day in workoutDict:
+        for exercise in workoutDict[day]:
+            testList = []
+            testList = db.session.query(ModelWorkout).filter(ModelWorkout.workoutname==exercise).all()
+            if(len(testList)>0):
+                asyncio.run(update_single_workout_by_user(uid, testList[0].wid,0,day))
+            else:
+                asyncio.run(update_single_workout_by_user(uid, 0,0,day))
     return exampleOutput 
 
 async def add_user(user: LoginInfo):
@@ -394,6 +421,11 @@ def register(user: LoginInfo):
     if asyncio.run(add_user(user)):
         return login(user)
     return False
+
+@app.post("/progress") #used to update checklist
+def update_checklist(update: ChecklistUpdate):
+    print(update)
+    return {}
 
 @app.post("/login")
 def login(user: LoginInfo):
@@ -481,6 +513,12 @@ async def update_single_meal_by_user(uid: int, mid: int, complete: int, day: int
 async def get_workouts_by_user(uid: int):
     # Using SQL statements for execution since it's a multi-table query
     workouts = db.session.query(ModelUW).filter(ModelUW.uid == uid).all()
+    workout_ids = [workout.wid for workout in workouts]
+    return workout_ids
+
+async def get_day_workouts_by_user(uid: int, day: int):
+    # Using SQL statements for execution since it's a multi-table query
+    workouts = db.session.query(ModelUW).filter(and_(ModelUW.uid == uid, ModelUW.a_day==day)).all()
     workout_ids = [workout.wid for workout in workouts]
     return workout_ids
 
