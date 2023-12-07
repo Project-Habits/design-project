@@ -425,7 +425,7 @@ async def add_user(user: LoginInfo):
 def register(user: LoginInfo):
     if asyncio.run(add_user(user)):
         return login(user)
-    return False
+    return {'username': '', 'password': '', 'hashedpassword': '', 'workout': '', 'meal': '', 'status': 0}
 
 @app.post("/progress") #used to update checklist
 def update_checklist(update: ChecklistUpdate):
@@ -513,9 +513,10 @@ def login(user: LoginInfo):
             print(mealsDict[meal])
         for workout in workoutsDict:
             print(workoutsDict[workout])'''
-        print(mealsDict)
-        print(workoutsDict)         
-        example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': workoutsDict, 'workoutGoal': workoutDays, 'meal': mealsDict, 'mealGoal': mealDays, 'status': 1}
+        #print(mealsDict)
+        #print(workoutsDict)         
+        example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 
+                        'workout': workoutsDict, 'workoutGoal': workoutDays, 'meal': mealsDict, 'mealGoal': mealDays, 'status': 1}
 
     else:
         print('Login Failed')
