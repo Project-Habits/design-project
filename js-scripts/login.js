@@ -115,7 +115,7 @@ async function sendRegister(username, password) {
       if (data == 1) {
         // Handle register success
         localStorage.clear();
-        localStorage.setItem("username", JSON.stringify(data.username));
+        localStorage.setItem("username", username);
         localStorage.setItem("loggedIn", true);
         console.log("Register successful");
         loginForm.classList.toggle("hidden");
