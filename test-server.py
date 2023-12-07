@@ -41,6 +41,13 @@ def return_status(form: Form):
     exampleOutput = {'workout': {1: exampleWorkout, 2: exampleWorkout2}, 'meal': {1: exampleMeal, 2: exampleMeal2}} 
     return exampleOutput 
 
+@app.post("/register")
+def register(user: User):
+    if user.username == 'new':
+        return 1
+    else:
+        return 0
+
 @app.post("/login")
 def login(user: User):
     hashed_password = pwd_context.hash(user.password)

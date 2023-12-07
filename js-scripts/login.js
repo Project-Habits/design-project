@@ -112,15 +112,17 @@ async function sendRegister(username, password) {
       console.log(
         "Input: " + JSON.stringify({ username: username, password: password })
       );
-      if (data.status == 1) {
+      if (data == 1) {
         // Handle register success
         localStorage.clear();
+        localStorage.setItem("username", JSON.stringify(data.username));
+        localStorage.setItem("loggedIn", true);
         console.log("Register successful");
         loginForm.classList.toggle("hidden");
         loginHeader.classList.toggle("hidden");
         main.classList.toggle("hidden");
         // Don't store anything , account data doesn't exist yet.
-      } else if (data.status == 0) {
+      } else if (data == 0) {
         // Handle register failure
         // TODO: Let me know what to put here for failure.
         console.log("Register failed");
