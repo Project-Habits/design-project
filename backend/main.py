@@ -10,7 +10,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert, delete, and_, or_, Table
+from sqlalchemy import select, insert, delete, and_, or_, Table, func
 
 import uvicorn
 from fastapi_sqlalchemy import DBSessionMiddleware, db
@@ -150,6 +150,9 @@ def return_status(form: Form):
     form.username = form.username.replace('"', '')
     db_user = asyncio.run(get_the_user(form.username))[0]
     uid = db_user.uid
+
+    asyncio.run(delete_user_meals(uid))
+    asyncio.run(delete_user_workouts(uid))
     # Here is where we would run the algorithm to determine which workout and meal to return
 
     if(form.mealDiet == "Vegan"):
@@ -460,7 +463,59 @@ def login(user: LoginInfo):
     # get_meals_by_user(SchemaUser(username=user.username, u_password=user.password))
     if (len(valid_user) == 1 and len(valid_pass) == 1):
         print('Login Successful')
-        example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': { "Bench Press": "3x10", "Military Press": "3x10", "Squats": "3x8" }, 'workoutGoal': 1, 'meal': { "Name": "Chicken and Rice dinner", "Link": "https://www.campbells.com/recipes/15-minute-chicken-rice-dinner/"}, 'mealGoal': 4, 'status': 1}
+        uid = valid_user[0].uid
+        mealsList = asyncio.run(get_meals_by_user(uid))
+        workoutsList = asyncio.run(get_workouts_by_user(uid))
+        #print(db.session.query(ModelUW.a_day).filter(ModelUW.uid == uid).group_by(ModelUW.a_day).order_by(ModelUW.a_day).all())
+        mealDays = int(len(db.session.query(ModelUM.a_day).filter(ModelUM.uid == uid).group_by(ModelUM.a_day).order_by(ModelUM.a_day).all()))
+        workoutDays = int(len(db.session.query(ModelUW.a_day).filter(ModelUW.uid == uid).group_by(ModelUW.a_day).order_by(ModelUW.a_day).all()))
+        mealsDict = {}
+        workoutsDict = {}
+        for day in range(mealDays):
+            mealsDict.update({ day+1 : {}})
+        for day in range(workoutDays):
+            workoutsDict.update({day+1:{}})
+
+        for mealIndex in range(len(mealsList)):
+            meal = db.session.query(ModelMeal).filter(ModelMeal.mid == mealsList[mealIndex]).first()
+            status = db.session.query(ModelUM).filter(and_(ModelUM.mid == mealsList[mealIndex],ModelUM.uid==uid)).first()
+            mealsDict[status.a_day].update({"Completed": status.complete})
+            if(meal.m_type=='b'):
+                mealsDict[status.a_day].update({'Breakfast':{"Name":meal.mealname, "Link": meal.link}})
+            if(meal.m_type=='l'):
+                mealsDict[status.a_day].update({'Lunch':{"Name":meal.mealname, "Link": meal.link}})
+            if(meal.m_type=='d'):
+                mealsDict[status.a_day].update({'Dinner':{"Name":meal.mealname, "Link": meal.link}})
+        #print(mealsDict)
+        for wIndex in range(len(workoutsList)):
+            workout = db.session.query(ModelWorkout).filter(ModelWorkout.wid == workoutsList[wIndex]).first()
+            status = db.session.query(ModelUW).filter(and_(ModelUW.wid == workoutsList[wIndex],ModelUW.uid==uid)).first()
+            #print(workout.workoutname, status.a_day,uid)
+            #print(status)
+            if(workoutsList[wIndex]!=0):
+                if(workout.w_type=='C'):
+                    workoutsDict[status.a_day].update({"Completed": status.complete})
+                    workoutsDict[status.a_day].update({workout.workoutname:str(random.randrange(30,61,5)) + " min"})
+                else:
+                    workoutsDict[status.a_day].update({"Completed": status.complete})
+                    workoutsDict[status.a_day].update({workout.workoutname:str(random.randrange(2,5)) + "x" + str(random.randrange(8,12))})
+            elif (workoutDays==4 and status.a_day == 4):
+                workoutsDict[status.a_day].update({"Completed": status.complete})
+                workoutsDict[4].update({"Repeat workout from Day 1 or 2":"Alternate weekly:"})
+            elif (workoutDays==7 and status.a_day == 7):
+                workoutsDict[status.a_day].update({"Completed": status.complete})
+                workoutsDict[7].update({"Use today to work on weak areas!":""})
+            else:
+                workoutsDict[status.a_day].update({"Completed": status.complete})
+                workoutsDict[1].update({"Try Circuit Training!":""})
+
+        '''for meal in mealsDict:
+            print(mealsDict[meal])
+        for workout in workoutsDict:
+            print(workoutsDict[workout])'''
+        print(mealsDict)
+        print(workoutsDict)         
+        example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 'workout': workoutsDict, 'workoutGoal': workoutDays, 'meal': mealsDict, 'mealGoal': mealDays, 'status': 1}
 
     else:
         print('Login Failed')
