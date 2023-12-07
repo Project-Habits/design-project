@@ -33,6 +33,9 @@ function mealCard(obj) {
       dayEle.append(newEle);
       const meals = Object.keys(obj[day][key]);
       meals.forEach((meal) => {
+        if (meal == "Completed") {
+          // do nothing
+        }
         if (meal == "Link") {
           const noSpaceKey = key.replace(/\s/g, "");
           const newEle = createPart("a", noSpaceKey);
@@ -41,8 +44,7 @@ function mealCard(obj) {
           newEle.href = obj[day][key][meal];
           dayEle.append(newEle);
           return;
-        }
-        else if (meal == "Name") {
+        } else if (meal == "Name") {
           const noSpaceKey = key.replace(/\s/g, "");
           const newEle = createPart("p", noSpaceKey);
           newEle.classList.add("meal");
@@ -81,11 +83,15 @@ function workoutCard(obj) {
     dayEle.id = "workDay" + day;
     const keys = Object.keys(obj[day]);
     keys.forEach((key) => {
-      const noSpaceKey = key.replace(/\s/g, "");
-      const newEle = createPart("p", noSpaceKey);
-      newEle.classList.add("exercise");
-      newEle.textContent = obj[day][key] + " " + key;
-      dayEle.append(newEle);
+      if (key == "Completed") {
+        //do nothing
+      } else {
+        const noSpaceKey = key.replace(/\s/g, "");
+        const newEle = createPart("p", noSpaceKey);
+        newEle.classList.add("exercise");
+        newEle.textContent = obj[day][key] + " " + key;
+        dayEle.append(newEle);
+      }
     });
     cardEle.append(dayEle);
   });

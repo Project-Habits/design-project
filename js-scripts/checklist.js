@@ -83,11 +83,16 @@ displayBut.addEventListener("click", () => {
   // If user data exists, then we want to create the checklists for their tasks
   if (localStorage.workoutGoal != null) {
     let workBtns = document.getElementsByClassName("workBtn");
+    let workoutObj = JSON.parse(localStorage.getItem("workout"));
     if (workBtns.length < workGoal) {
       // Reset progress to 0
       workCurrent = 0;
       for (let i = workBtns.length + 1; i <= workGoal; i++) {
         workList.appendChild(addCheck(i, "workBtn"));
+        if (workoutObj[i]["Completed"]) {
+          workCurrent += 1;
+          workList.lastChild.firstChild.classList.add("strike");
+        }
       }
     } else if (workBtns.length > workGoal) {
       for (let i = workBtns.length; i > workGoal; i--) {
@@ -165,10 +170,15 @@ displayBut.addEventListener("click", () => {
   // Same thing as workout goal, but for meals
   if (localStorage.mealGoal != null) {
     let mealBtns = document.getElementsByClassName("mealBtn");
+    let mealObj = JSON.parse(localStorage.getItem("meal"));
     if (mealBtns.length < mealGoal) {
       mealCurrent = 0;
       for (let i = mealBtns.length + 1; i <= mealGoal; i++) {
         mealList.appendChild(addCheck(i, "mealBtn"));
+        if (mealObj[i]["Completed"]) {
+          mealCurrent += 1;
+          mealList.lastChild.firstChild.classList.add("strike");
+        }
       }
     } else if (mealBtns.length > mealGoal) {
       for (let i = mealBtns.length; i > mealGoal; i--) {
