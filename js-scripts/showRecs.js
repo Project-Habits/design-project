@@ -26,6 +26,11 @@ function mealCard(obj) {
     dayEle.append(dayHeader);
     const keys = Object.keys(obj[day]);
     keys.forEach((key) => {
+      console.log(key);
+      if (key == "Completed") {
+        // do nothing
+        return;
+      }
       const noSpaceKey = key.replace(/\s/g, "");
       const newEle = createPart("h3", noSpaceKey);
       newEle.classList.add("meal");
@@ -33,9 +38,6 @@ function mealCard(obj) {
       dayEle.append(newEle);
       const meals = Object.keys(obj[day][key]);
       meals.forEach((meal) => {
-        if (meal == "Completed") {
-          // do nothing
-        }
         if (meal == "Link") {
           const noSpaceKey = key.replace(/\s/g, "");
           const newEle = createPart("a", noSpaceKey);
