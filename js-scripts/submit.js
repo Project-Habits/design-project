@@ -10,7 +10,6 @@ async function sendData(
   workout,
   workGoal,
   mealDiet,
-  mealProtein,
   mealCalorie,
   mealGoal
 ) {
@@ -25,7 +24,6 @@ async function sendData(
       workout: workout,
       workoutGoal: workGoal,
       mealDiet: mealDiet,
-      mealProtein: mealProtein,
       mealCalorie: mealCalorie,
       mealGoal: mealGoal,
     }),
@@ -39,7 +37,6 @@ async function sendData(
             workout: workout,
             workoutGoal: workGoal,
             mealDiet: mealDiet,
-            mealProtein: mealProtein,
             mealCalorie: mealCalorie,
             mealGoal: mealGoal,
           })
@@ -61,7 +58,6 @@ submitBut.onclick = (event) => {
   const mealDiet = document.getElementById("dietChoice").value;
   const workoutGoal = document.getElementById("workoutGoal").value;
   const mealGoal = document.getElementById("mealGoal").value;
-  const mealProtein = document.getElementById("proteinChoice").value;
   const mealCalorie = document.getElementById("calorieChoice").value;
 
   // Send data & fetch response to store in localStorage
@@ -70,7 +66,6 @@ submitBut.onclick = (event) => {
     workoutEntry,
     workoutGoal,
     mealDiet,
-    mealProtein,
     mealCalorie,
     mealGoal
   );

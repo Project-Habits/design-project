@@ -67,6 +67,7 @@ function createButtons() {
   const mealAllButton = document.createElement("button");
   mealAllButton.classList.add("styleBtn");
   mealAllButton.textContent = "All";
+  console.log('allbtn');
   mealAllButton.onclick = () => {
     // Unhide all elements
     const days = document.getElementsByClassName("mealDay");
@@ -155,7 +156,13 @@ displayBut.addEventListener("click", () => {
   updateNumButtons();
 });
 const loginBtn = document.getElementById("loginSubmit");
+const registerBtn = document.getElementById("loginRegister");
 loginBtn.addEventListener("click", () => {
+  if (workoutCardContainer == null) {
+    createButtons();
+  }
+});
+registerBtn.addEventListener("click", () => {
   if (workoutCardContainer == null) {
     createButtons();
   }

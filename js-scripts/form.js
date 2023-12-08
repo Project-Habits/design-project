@@ -59,19 +59,6 @@ function formHelper(name, type = "text") {
       selectChoice.append(option);
     }
     label.innerHTML = name + " (Goal)";
-  } else if (name == "Protein Content") {
-    let arr = ["Low", "Medium", "High"];
-    let selectChoice = document.createElement("select");
-    selectChoice.id = "proteinChoice";
-    gridRow.appendChild(selectChoice);
-
-    for (let i = 0; i < arr.length; i++) {
-      let option = document.createElement("option");
-      option.value = arr[i];
-      option.text = arr[i];
-      selectChoice.append(option);
-    }
-    label.innerHTML = name;
   } else if (name == "Meals cooked per week") {
     let arr = ["1", "2", "3", "4", "5", "6", "7"];
     let selectChoice = document.createElement("select");
@@ -139,8 +126,6 @@ function createForm() {
   form.appendChild(dietRow);
   const calorieRow = formHelper("Caloric Goal");
   form.appendChild(calorieRow);
-  const proteinRow = formHelper("Protein Content");
-  form.appendChild(proteinRow);
   const mealGoal = formHelper("Meals cooked per week");
   form.appendChild(mealGoal);
 

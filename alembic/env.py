@@ -10,8 +10,8 @@ from alembic import context
 config = context.config
 
 #  Making a connection
-config.set_main_option('sqlalchemy.url', "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full")
-# config.set_main_option('sqlalchemy.url', "postgresql://postgres:password@localhost:5432/projTesthabits")
+# config.set_main_option('sqlalchemy.url', "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full")
+config.set_main_option('sqlalchemy.url', "postgresql://postgres:123@localhost:5432/projhabits")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
