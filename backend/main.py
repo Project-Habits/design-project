@@ -38,8 +38,8 @@ import random
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-DB_URL = "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full"
-# DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
+#DB_URL = "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full"
+DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
 # DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
 
 class Token(BaseModel):
@@ -240,14 +240,14 @@ def return_status(form: Form):
         else:
             dinName = "Dinner Placeholder"
             dinLink = "www.example.com/dinner"
-        mealDict.update({i+1:{
+        mealDict.update({i+1:{"Completed": 0,
             "Breakfast":{"Name":bfName, "Link": bfLink, "ID":bID}, 
             "Lunch":{"Name":lunchName, "Link":lunchLink, "ID":lID}, 
             "Dinner":{"Name":dinName, "Link":dinLink, "ID":dID}
             }})
 
     for i in range(int(form.workoutGoal)):
-        workoutDict.update({ i+1 : {}})
+        workoutDict.update({ i+1 : {"Completed": 0}})
 
     if(form.workout == "Strength"):
         if(form.workoutGoal=='1'):
@@ -390,16 +390,19 @@ def return_status(form: Form):
     for meal in mealDict:
         for mealOfDay in mealDict[meal]:
             #print(uid, mealDict[meal][mealOfDay]['ID'], 0, meal)
-            asyncio.run(update_single_meal_by_user(uid, mealDict[meal][mealOfDay]['ID'], 0, meal))
+            if(mealOfDay!='Completed'):
+                asyncio.run(update_single_meal_by_user(uid, mealDict[meal][mealOfDay]['ID'], 0, meal))
 
     for day in workoutDict:
         for exercise in workoutDict[day]:
-            testList = []
-            testList = db.session.query(ModelWorkout).filter(ModelWorkout.workoutname==exercise).all()
-            if(len(testList)>0):
-                asyncio.run(update_single_workout_by_user(uid, testList[0].wid,0,day))
-            else:
-                asyncio.run(update_single_workout_by_user(uid, 0,0,day))
+            if(exercise != 'Completed'):
+                testList = []
+                testList = db.session.query(ModelWorkout).filter(ModelWorkout.workoutname==exercise).all()
+                if(len(testList)>0):
+                    asyncio.run(update_single_workout_by_user(uid, testList[0].wid,0,day))
+                else:
+                    asyncio.run(update_single_workout_by_user(uid, 0,0,day))
+    print(exampleOutput)
     return exampleOutput 
 
 async def add_user(user: LoginInfo):
