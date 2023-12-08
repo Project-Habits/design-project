@@ -14,7 +14,7 @@ from sqlalchemy import select, insert, delete, and_, or_, Table, func
 
 import uvicorn
 from fastapi_sqlalchemy import DBSessionMiddleware, db
-import sqlalchemy_cockroachdb
+# import sqlalchemy_cockroachdb
 
 from schema import User as SchemaUser
 from schema import Meal as SchemaMeal
@@ -40,6 +40,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 #DB_URL = "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full"
 DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
+#DB_URL="postgresql://postgres:123@localhost:5432/projhabits"
 # DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
 
 class Token(BaseModel):
@@ -64,7 +65,6 @@ class Form(BaseModel):
     workout: str
     workoutGoal: str
     mealDiet: str
-    mealProtein: str
     mealCalorie: str
     mealGoal: str
 

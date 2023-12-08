@@ -69,7 +69,8 @@ async function sendLogin(username, password) {
     .then((data) => {
       // Handle the login here
       console.log(
-        "Input: " + JSON.stringify({ username: username, password: password })
+        "Input: " + JSON.stringify({ username: username, password: password }),
+        "Output: " + JSON.stringify(data)
       );
       if (data.status == 1) {
         // Handle login success

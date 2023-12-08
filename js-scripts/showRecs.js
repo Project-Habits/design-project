@@ -26,7 +26,6 @@ function mealCard(obj) {
     dayEle.append(dayHeader);
     const keys = Object.keys(obj[day]);
     keys.forEach((key) => {
-      console.log(key);
       if (key == "Completed") {
         // do nothing
         return;
@@ -76,6 +75,7 @@ function workoutCard(obj) {
   const headerEle = createPart("h1", "cardWorkout");
   headerEle.textContent = "Workout";
   cardEle.append(headerEle);
+  console.log(obj);
   const days = Object.keys(obj);
   days.forEach((day) => {
     const dayEle = createPart("div", "workDay");
