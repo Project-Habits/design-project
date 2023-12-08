@@ -402,7 +402,7 @@ def return_status(form: Form):
                     asyncio.run(update_single_workout_by_user(uid, testList[0].wid,0,day))
                 else:
                     asyncio.run(update_single_workout_by_user(uid, 0,0,day))
-    print(exampleOutput)
+    #print(exampleOutput)
     return exampleOutput 
 
 async def add_user(user: LoginInfo):
