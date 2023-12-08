@@ -26,7 +26,6 @@ function mealCard(obj) {
     dayEle.append(dayHeader);
     const keys = Object.keys(obj[day]);
     keys.forEach((key) => {
-      console.log(key);
       if (key == "Completed") {
         // do nothing
         return;

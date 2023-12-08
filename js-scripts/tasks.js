@@ -161,7 +161,6 @@ loginBtn.addEventListener("click", () => {
   }
 });
 if (workoutCardContainer != null) {
-  console.log("called");
   createButtons();
   updateNumButtons();
 }

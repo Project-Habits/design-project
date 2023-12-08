@@ -44,6 +44,12 @@ function checkButton(button) {
     return 1;
   }
 }
+// Remove strikes if user changes goal
+function removeStrikes(buttons) {
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].firstChild.classList.remove("strike");
+  }
+}
 
 async function sendProgress(username, type, day, checked) {
   fetch("http://127.0.0.1:8000/progress", {
@@ -82,16 +88,20 @@ displayBut.addEventListener("click", () => {
   // Using workoutGoal to determine whether or not the user has submitted the form
   // If user data exists, then we want to create the checklists for their tasks
   if (localStorage.workoutGoal != null) {
+    console.log("here");
     let workBtns = document.getElementsByClassName("workBtn");
+    removeStrikes(workBtns);
     let workoutObj = JSON.parse(localStorage.getItem("workout"));
+    workCurrent = 0;
     if (workBtns.length < workGoal) {
       // Reset progress to 0
-      workCurrent = 0;
       for (let i = workBtns.length + 1; i <= workGoal; i++) {
         workList.appendChild(addCheck(i, "workBtn"));
         if (workoutObj[i]["Completed"]) {
           workCurrent += 1;
           workList.lastChild.firstChild.classList.add("strike");
+        } else {
+          workList.lastChild.firstChild.classList.remove("strike");
         }
       }
     } else if (workBtns.length > workGoal) {
@@ -170,9 +180,10 @@ displayBut.addEventListener("click", () => {
   // Same thing as workout goal, but for meals
   if (localStorage.mealGoal != null) {
     let mealBtns = document.getElementsByClassName("mealBtn");
+    removeStrikes(mealBtns);
     let mealObj = JSON.parse(localStorage.getItem("meal"));
+    mealCurrent = 0;
     if (mealBtns.length < mealGoal) {
-      mealCurrent = 0;
       for (let i = mealBtns.length + 1; i <= mealGoal; i++) {
         mealList.appendChild(addCheck(i, "mealBtn"));
         if (mealObj[i]["Completed"]) {
