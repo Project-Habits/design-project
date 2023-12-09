@@ -4,14 +4,14 @@
 
 -- Insert data into users table
 INSERT INTO users (uid, username, u_password) VALUES
-(1, 'user1', 'pass1'),
-(2, 'user2', 'pass2'),
-(3, 'user3', 'pass3'),
-(4, 'user4', 'pass4'),
-(5, 'user5', 'pass5'),
-(6, 'user6', 'pass6'),
-(7, 'user7', 'pass7'),
-(8, 'user8', 'pass8');
+(1, 'user1', 'a722c63db8ec8625af6cf71cb8c2d939'),
+(2, 'user2', 'c1572d05424d0ecb2a65ec6a82aeacbf'),
+(3, 'user3', '3afc79b597f88a72528e864cf81856d2'),
+(4, 'user4', 'fc2921d9057ac44e549efaf0048b2512'),
+(5, 'user5', 'd35f6fa9a79434bcd17f8049714ebfcb'),
+(6, 'user6', 'e9568c9ea43ab05188410a7cf85f9f5e'),
+(7, 'user7', '8c96c3884a827355aed2c0f744594a52'),
+(8, 'user8', 'ccd3cd18225730c5edfc69f964b9d7b3');
 
 -- Insert data into meals table
 INSERT INTO meals (mid, mealname, calories, m_type, diet_type, link) VALUES

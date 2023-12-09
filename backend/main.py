@@ -31,6 +31,7 @@ from models import User_Workout as ModelUW
 from models import Activity as ModelActivity
 
 import random
+import hashlib
 
 
 # to get a string like this run:
@@ -38,10 +39,9 @@ import random
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-#DB_URL = "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full"
-DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
-#DB_URL="postgresql://postgres:123@localhost:5432/projhabits"
-# DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
+# DB_URL = "cockroachdb://dev:RSfmvZZIdlguqlhHm_hPEg@project-habits-6464.g8z.cockroachlabs.cloud:26257/project?sslmode=verify-full"
+# DB_URL="postgresql://postgres:password@localhost:5432/projTesthabits"
+DB_URL="postgresql://postgres:playerubg209@localhost:5435/projhabits"
 
 class Token(BaseModel):
     access_token: str
@@ -99,7 +99,7 @@ async def get_the_user(username: str):
     return user
 
 async def get_the_pass(password: str):
-    u_pass = db.session.query(ModelUser).filter(ModelUser.u_password == password).all()
+    u_pass = db.session.query(ModelUser).filter(ModelUser.u_password == hashlib.md5(password.encode()).hexdigest()).all()
     return u_pass
 
 async def get_meal(mealname: str):
@@ -412,7 +412,7 @@ async def add_user(user: LoginInfo):
         if (user.username != '' and user.password != ''):
             u_id = db.session.query(ModelUser).count() + 1
             print(u_id, user.username, user.password)
-            db_user = ModelUser(uid=u_id, username=user.username, u_password=user.password)
+            db_user = ModelUser(uid=u_id, username=user.username, u_password=hashlib.md5(user.password.encode()).hexdigest())
             db.session.add(db_user)
             db.session.commit()
             db.session.query()

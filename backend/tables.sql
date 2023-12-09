@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS activities CASCADE;
 CREATE table users (
 	uid INT Primary Key,
 	username VARCHAR(50),
-	u_password VARCHAR(20));
+	u_password VARCHAR(50));
 	
 CREATE TABLE meals (
 	mid INT PRIMARY KEY,
