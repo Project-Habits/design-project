@@ -35,7 +35,7 @@ The remote database should now be connected to the Python server.
 - bcrypt
 - psycopg2
 
-  This can be done with: `pip install fastapi python-jose pydantic sqlalchemy sqlalchemy_cockroachdb uvicorn passlib fastapi_sqlalchemy bcrypt psycopg2`
+This can be done with: `pip install fastapi python-jose pydantic sqlalchemy sqlalchemy_cockroachdb uvicorn passlib fastapi_sqlalchemy bcrypt psycopg2`
 
 2. Starting the Python server
    Navigate to the [backend directory](backend/) and enter `python3 -m uvicorn main:app` into the console. This will initiate the Python server, enabling the proper functioning of the web app.
