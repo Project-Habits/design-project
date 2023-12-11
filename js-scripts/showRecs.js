@@ -75,7 +75,6 @@ function workoutCard(obj) {
   const headerEle = createPart("h1", "cardWorkout");
   headerEle.textContent = "Workout";
   cardEle.append(headerEle);
-  console.log(obj);
   const days = Object.keys(obj);
   days.forEach((day) => {
     const dayEle = createPart("div", "workDay");

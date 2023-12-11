@@ -67,11 +67,6 @@ async function sendLogin(username, password) {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Handle the login here
-      console.log(
-        "Input: " + JSON.stringify({ username: username, password: password }),
-        "Output: " + JSON.stringify(data)
-      );
       if (data.status == 1) {
         // Handle login success
         loginForm.classList.toggle("hidden");
@@ -79,7 +74,6 @@ async function sendLogin(username, password) {
         main.classList.toggle("hidden");
         localStorage.clear();
         localStorage.setItem("loggedIn", true);
-        console.log("Login successful");
         if (data.meal) {
           localStorage.setItem("username", JSON.stringify(data.username));
           localStorage.setItem("meal", JSON.stringify(data.meal));
@@ -93,7 +87,6 @@ async function sendLogin(username, password) {
         }
       } else if (data.status == 0) {
         // Handle login failure
-        console.log("Login failed");
         alert("Login failed!");
       }
     });
@@ -109,16 +102,11 @@ async function sendRegister(username, password) {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Handle the register here
-      console.log(
-        "Input: " + JSON.stringify({ username: username, password: password })
-      );
       if (data.status == 1) {
         // Handle register success
         localStorage.clear();
         localStorage.setItem("username", JSON.stringify(username));
         localStorage.setItem("loggedIn", true);
-        console.log("Register successful");
         loginForm.classList.toggle("hidden");
         loginHeader.classList.toggle("hidden");
         main.classList.toggle("hidden");
@@ -126,7 +114,6 @@ async function sendRegister(username, password) {
       } else if (data.status == 0) {
         // Handle register failure
         // TODO: Let me know what to put here for failure.
-        console.log("Register failed");
         alert("Register failed!");
       }
     });

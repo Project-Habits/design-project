@@ -115,7 +115,6 @@ async def get_user_meals(uid: int, username: str):
     # Using SQL statements for execution since it's a multi-table query
     uid = await get_the_user(username)[0].uid
     meals_id = db.session.query(ModelActivity).filter(ModelActivity.uid == uid).with_entities(ModelActivity.mid)
-    print(meals_id)
     return meals_id
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -411,7 +410,6 @@ async def add_user(user: LoginInfo):
     if (len(existing_user) == 0):
         if (user.username != '' and user.password != ''):
             u_id = db.session.query(ModelUser).count() + 1
-            print(u_id, user.username, user.password)
             db_user = ModelUser(uid=u_id, username=user.username, u_password=hashlib.md5(user.password.encode()).hexdigest())
             db.session.add(db_user)
             db.session.commit()
@@ -432,7 +430,6 @@ def register(user: LoginInfo):
 
 @app.post("/progress") #used to update checklist
 def update_checklist(update: ChecklistUpdate):
-    print(update)
     update.username = update.username.replace('"', '')
     db_user = asyncio.run(get_the_user(update.username))[0]
     uid = db_user.uid
@@ -511,13 +508,6 @@ def login(user: LoginInfo):
             else:
                 workoutsDict[status.a_day].update({"Completed": status.complete})
                 workoutsDict[1].update({"Try Circuit Training!":""})
-
-        '''for meal in mealsDict:
-            print(mealsDict[meal])
-        for workout in workoutsDict:
-            print(workoutsDict[workout])'''
-        #print(mealsDict)
-        #print(workoutsDict)         
         example_data = {'username': user.username, 'password': user.password, 'hashedpassword': hashed_password, 
                         'workout': workoutsDict, 'workoutGoal': workoutDays, 'meal': mealsDict, 'mealGoal': mealDays, 'status': 1}
 

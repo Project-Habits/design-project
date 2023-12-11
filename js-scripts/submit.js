@@ -30,20 +30,8 @@ async function sendData(
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(
-        "Input: " +
-          JSON.stringify({
-            username: username,
-            workout: workout,
-            workoutGoal: workGoal,
-            mealDiet: mealDiet,
-            mealCalorie: mealCalorie,
-            mealGoal: mealGoal,
-          })
-      );
       localStorage.setItem("workout", JSON.stringify(data.workout));
       localStorage.setItem("meal", JSON.stringify(data.meal));
-      console.log("Output (from Python server): " + JSON.stringify(data));
     });
 }
 submitBut.onclick = (event) => {
